@@ -30,7 +30,7 @@ public class FileUtil {
     }
 
     public String getPathToStore(File file) {
-//        return file.getAbsolutePath().substring(R.USER_DATA.length()).replace('\\', '/');
-        return file.getAbsolutePath().substring(R.USER_DATA.length());
+        return file.getAbsolutePath().substring(R.USER_DATA.length()).replace('\\', '/');
+//        return file.getAbsolutePath().substring(R.USER_DATA.length());
     }
 }

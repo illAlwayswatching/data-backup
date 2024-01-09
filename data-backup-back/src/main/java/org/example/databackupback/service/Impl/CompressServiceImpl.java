@@ -119,10 +119,11 @@ public class CompressServiceImpl implements CompressService {
     }
 
     private void compressUnit(File sourceFile, ZipOutputStream zos, String fileName) throws IOException {
-        log.info(sourceFile.getName());
+//        log.info(sourceFile.getPath());
+        log.info(fileName);
         if (sourceFile.isDirectory()) {
             //创建文件夹
-            zos.putNextEntry(new ZipEntry(sourceFile.getName() + "/"));
+            zos.putNextEntry(new ZipEntry(fileName + "/"));
             //迭代判断，并且加入对应文件路径
             File[] files = sourceFile.listFiles();
             for (File son : Arrays.asList(files)) {
@@ -130,7 +131,7 @@ public class CompressServiceImpl implements CompressService {
             }
         } else {
             String pathToStore = fileUtil.getPathToStore(sourceFile);
-            log.debug(pathToStore);
+//            log.debug(pathToStore);
 
             QueryWrapper<BackupFileInfo> wrapper = new QueryWrapper<>();
             wrapper.eq("path", pathToStore);
