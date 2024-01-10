@@ -1,12 +1,26 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+  let account = ref(localStorage.getItem('account')? localStorage.getItem('account') : null)
+  let token = ref(localStorage.getItem('token')? localStorage.getItem('token') : null)
+
+  function setAccount(val) {
+    account.value = val
+    localStorage.setItem('account', JSON.stringify(val))
   }
 
-  return { count, doubleCount, increment }
+  function setToken(val) {
+    token.value = val
+    localStorage.setItem('token', token)
+  }
+
+  function logOut() {
+    // localStorage.removeItem('token')
+    // token = null
+    localStorage.removeItem('account')
+    account.value = null
+  }
+
+  return { account, token, setAccount, setToken, logOut }
 })
