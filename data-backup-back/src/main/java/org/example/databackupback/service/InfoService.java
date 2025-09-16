@@ -1,18 +1,18 @@
 package org.example.databackupback.service;
 
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/6 17:48
+ * @Date: 2025/9/11 16:38
  **/
 public interface InfoService {
-    R getEntries(String username, String path);
+    Response getEntries(String username, String path);
 
-    R delBackup(Integer id);
+    Response delBackup(Integer id);
 
-    R addFolder(String username, String path, String folderName);
+    Response addFolder(String username, String path, String folderName);
 
-    R copyInServer(String username, String fileId, String to);
+    Response copyInServer(String username, String fileId, String to);
 }

@@ -49,7 +49,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.30</version>
+            <scope>provided</scope> 
         </dependency>
 
         <!-- 测试 -->
@@ -100,15 +101,23 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.1.7</version>
                 <configuration>
                     <image>
                         <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
-                    <excludes>
-                        <exclude>
+                    <annotationProcessorPaths>
+                        <!-- <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                        </exclude>
+                            <version>1.18.34</version>
+                        </path> -->
+                    </annotationProcessorPaths>
+                    <excludes>
+                        <!-- <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude> -->
                     </excludes>
                 </configuration>
             </plugin>

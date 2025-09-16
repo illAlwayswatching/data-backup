@@ -3,9 +3,9 @@ package org.example.databackupback.utils;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/7 20:53
+ * @Date: 2025/9/12 23:53
  **/
 public class SecurityUtil {
     /**

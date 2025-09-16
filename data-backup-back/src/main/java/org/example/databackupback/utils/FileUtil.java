@@ -1,6 +1,6 @@
 package org.example.databackupback.utils;
 
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/7 18:43
+ * @Date: 2025/9/12 18:43
  **/
 @Component
 public class FileUtil {
@@ -30,7 +30,7 @@ public class FileUtil {
     }
 
     public String getPathToStore(File file) {
-        return file.getAbsolutePath().substring(R.USER_DATA.length()).replace('\\', '/');
-//        return file.getAbsolutePath().substring(R.USER_DATA.length());
+        return file.getAbsolutePath().substring(Response.USER_DATA.length()).replace('\\', '/');
+//        return file.getAbsolutePath().substring(Response.USER_DATA.length());
     }
 }

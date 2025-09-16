@@ -1,6 +1,6 @@
 package org.example.databackupback.utils;
 
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -12,9 +12,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/6 23:30
+ * @Date: 2025/9/12 18:28
  **/
 public class EncryptUtil {
     // 文件的加密方式
@@ -47,7 +47,7 @@ public class EncryptUtil {
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec); // 使用秘密密钥初始化密码 cipher，设置为解密模式
 
         //////////////
-        String temp_path = R.PROJECT_PATH + "/temp/" + fileName;
+        String temp_path = Response.PROJECT_PATH + "/temp/" + fileName;
         Path tempPath = Paths.get(temp_path);
         OutputStream tempStream = Files.newOutputStream(tempPath);
 

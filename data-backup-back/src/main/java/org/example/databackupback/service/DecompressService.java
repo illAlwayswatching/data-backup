@@ -1,14 +1,15 @@
 package org.example.databackupback.service;
 
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/7 16:22
+ * @Date: 2025/9/11 16:47
  **/
 public interface DecompressService {
-    R decompressByPath(String username, String target, String zipPath);
+    Response decompressByPath(String username, String target, String zipPath);
 
-    R decompressById(String username, String target, String zipId);
+    Response decompressById(String username, String target, String zipId);
 }
+

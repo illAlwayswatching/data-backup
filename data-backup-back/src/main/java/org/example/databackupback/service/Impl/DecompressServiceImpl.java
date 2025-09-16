@@ -2,7 +2,7 @@ package org.example.databackupback.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 import org.example.databackupback.entity.BackupFile;
 import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
@@ -16,9 +16,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/7 16:22
+ * @Date: 2025/9/11 16:49
  **/
 @Slf4j
 @Service
@@ -30,14 +30,14 @@ public class DecompressServiceImpl implements DecompressService {
     FileUtil fileUtil;
 
     @Override
-    public R decompressByPath(String username, String target, String zipPath) {
-        File zipFile = new File(R.USER_DATA + "/" + username + zipPath);
+    public Response decompressByPath(String username, String target, String zipPath) {
+        File zipFile = new File(Response.USER_DATA + "/" + username + zipPath);
 
-        String targetPath = R.USER_DATA + "/" + username + target;
+        String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
             log.error("欲解压的地址不是一个目录");
-            return R.error("欲解压的地址不是一个目录");
+            return Response.error("欲解压的地址不是一个目录");
         }
 
         try {
@@ -45,22 +45,22 @@ public class DecompressServiceImpl implements DecompressService {
         } catch (IOException e) {
             e.printStackTrace();
             log.error("解压失败");
-            R.error("解压失败");
+            Response.error("解压失败");
         }
 
-        return R.success("解压成功");
+        return Response.success("解压成功");
     }
 
     @Override
-    public R decompressById(String username, String target, String zipId) {
+    public Response decompressById(String username, String target, String zipId) {
         BackupFileInfo zipSource = backupFileInfoMapper.selectById(zipId);
-        File zipFile = new File(R.USER_DATA + zipSource.getPath());
+        File zipFile = new File(Response.USER_DATA + zipSource.getPath());
 
-        String targetPath = R.USER_DATA + "/" + username + target;
+        String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
             log.error("欲解压的地址不是一个目录");
-            return R.error("欲解压的地址不是一个目录");
+            return Response.error("欲解压的地址不是一个目录");
         }
 
         try {
@@ -68,10 +68,10 @@ public class DecompressServiceImpl implements DecompressService {
         } catch (IOException e) {
             e.printStackTrace();
             log.error("解压失败");
-            R.error("解压失败");
+            Response.error("解压失败");
         }
 
-        return R.success("解压成功");
+        return Response.success("解压成功");
     }
 
     private void decompressHandler(File zipFile, File targetDir) throws IOException {

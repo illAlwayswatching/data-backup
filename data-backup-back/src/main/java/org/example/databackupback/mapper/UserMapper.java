@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.example.databackupback.entity.User;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/6 17:29
+ * @Date: 2025/9/11 16:11
  **/
 @Mapper
 public interface UserMapper extends BaseMapper<User> {

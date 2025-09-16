@@ -1,0 +1,1401 @@
+
+下载源文件
+最后一次提交时间：2025-07-27 13:18:06
+
+CE
+
+
+Summary
+分数 (Score)	时间 (Time)	最终状态
+0	0	CE
+Detail
+Compile Log
+
+clang++ -std=c++17 -O2 -lm -L/extlibs -I/extlibs -lantlr4-runtime -Wl,-rpath=/extlibs /coursegrader/submitdata/src/TypeConversionOperations.cpp /coursegrader/submitdata/src/function.cpp /coursegrader/submitdata/src/sym.cpp /coursegrader/submitdata/src/LocalMemoryOperations.cpp /coursegrader/submitdata/src/SymbolFactory.cpp /coursegrader/submitdata/src/llvm.cpp /coursegrader/submitdata/src/BasicBlock.cpp /coursegrader/submitdata/src/BasicOperations.cpp /coursegrader/submitdata/src/main.cpp /coursegrader/submitdata/src/ControlOperations.cpp /coursegrader/submitdata/src/data.cpp /coursegrader/submitdata/src/SSA.cpp /coursegrader/submitdata/src/GlobalArrayInitial.cpp /coursegrader/submitdata/src/GlobalOperations.cpp /coursegrader/submitdata/src/LLVMFactory.cpp /coursegrader/submitdata/src/frontendTool.cpp /coursegrader/submitdata/src/UnaryOperation.cpp /coursegrader/submitdata/src/frontend/fronted_llvm.cpp /coursegrader/submitdata/src/frontend/funcTool.cpp /coursegrader/submitdata/src/frontend/keyWordsTool.cpp /coursegrader/submitdata/src/backend/GlobalAlloca.cpp /coursegrader/submitdata/src/backend/RegAlloca.cpp /coursegrader/submitdata/src/backend/out_arm.cpp /coursegrader/submitdata/src/backend/StaAlloca.cpp /coursegrader/submitdata/test/BasicOperationTest.cpp /coursegrader/submitdata/test/test.cpp -I /coursegrader/submitdata/include -I /coursegrader/submitdata/include/frontend -I /coursegrader/submitdata/include/backend -o /root/run/compiler
+Stdout:
+
+Stderr:
+In file included from /coursegrader/submitdata/src/TypeConversionOperations.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/TypeConversionOperations.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/function.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/function.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/sym.cpp:1:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/LocalMemoryOperations.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/LocalMemoryOperations.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/SymbolFactory.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/SymbolFactory.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/llvm.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/BasicBlock.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/BasicBlock.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/BasicOperations.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/BasicOperations.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/main.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/frontend/frontendTool.hpp:2:
+In file included from /coursegrader/submitdata/src/../include/frontend/../BasicBlock.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/frontend/../llvm.hpp:3:
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/main.cpp:2:9: fatal error: 'frontend/sysy.y.hpp' file not found
+    2 | #include"frontend/sysy.y.hpp"
+      |         ^~~~~~~~~~~~~~~~~~~~~
+9 warnings and 1 error generated.
+In file included from /coursegrader/submitdata/src/ControlOperations.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/ControlOperations.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/SSA.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/SSA.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/BasicBlock.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+/coursegrader/submitdata/src/GlobalArrayInitial.cpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
+    1 | #pragma once
+      |         ^
+1 warning generated.
+In file included from /coursegrader/submitdata/src/GlobalOperations.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/GlobalOperations.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/LLVMFactory.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/LLVMFactory.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/BasicOperations.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/frontendTool.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/frontend/frontendTool.hpp:2:
+In file included from /coursegrader/submitdata/src/../include/frontend/../BasicBlock.hpp:3:
+In file included from /coursegrader/submitdata/src/../include/frontend/../llvm.hpp:3:
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/UnaryOperation.cpp:1:
+In file included from /coursegrader/submitdata/src/../include/UnaryOperation.hpp:1:
+In file included from /coursegrader/submitdata/src/../include/llvm.hpp:3:
+/coursegrader/submitdata/src/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/frontend/fronted_llvm.cpp:1:
+In file included from /coursegrader/submitdata/src/frontend/../../include/frontend/frontendTool.hpp:2:
+In file included from /coursegrader/submitdata/src/frontend/../../include/frontend/../BasicBlock.hpp:3:
+In file included from /coursegrader/submitdata/src/frontend/../../include/frontend/../llvm.hpp:3:
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/fronted_llvm.cpp:1104:13: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+ 1104 |             else
+      |             ^
+10 warnings generated.
+In file included from /coursegrader/submitdata/src/frontend/funcTool.cpp:1:
+In file included from /coursegrader/submitdata/include/../include/frontend/funcTool.hpp:4:
+In file included from /coursegrader/submitdata/include/../include/frontend/frontendTool.hpp:2:
+In file included from /coursegrader/submitdata/include/../include/frontend/../BasicBlock.hpp:3:
+In file included from /coursegrader/submitdata/include/../include/frontend/../llvm.hpp:3:
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/include/../include/frontend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/frontend/keyWordsTool.cpp:1:
+In file included from /coursegrader/submitdata/src/frontend/../../include/frontend/keyWordsTool.hpp:2:
+In file included from /coursegrader/submitdata/src/frontend/../../include/frontend/../../include/LLVMFactory.hpp:3:
+In file included from /coursegrader/submitdata/src/frontend/../../include/frontend/../../include/BasicOperations.hpp:3:
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/frontend/../../include/frontend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/backend/GlobalAlloca.cpp:1:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/GlobalAlloca.hpp:3:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/../llvm.hpp:3:
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/backend/RegAlloca.cpp:1:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/RegAlloca.hpp:4:
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/src/backend/out_arm.cpp:1:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/out_arm.hpp:2:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/GlobalAlloca.hpp:3:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/../llvm.hpp:3:
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/out_arm.cpp:75:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   75 | }
+      | ^
+/coursegrader/submitdata/src/backend/out_arm.cpp:215:13: warning: 63 enumeration values not handled in switch: 'llvm_fadd', 'llvm_fsub', 'llvm_fmul'... [-Wswitch]
+  215 |     switch (REMllvm->llvmType) {
+      |             ^~~~~~~~~~~~~~~~~
+11 warnings generated.
+In file included from /coursegrader/submitdata/src/backend/StaAlloca.cpp:1:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/StaAlloca.hpp:3:
+In file included from /coursegrader/submitdata/src/backend/../../include/backend/../llvm.hpp:3:
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/src/backend/../../include/backend/../sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+9 warnings generated.
+In file included from /coursegrader/submitdata/test/BasicOperationTest.cpp:1:
+In file included from /coursegrader/submitdata/test/../include/BasicOperations.hpp:3:
+/coursegrader/submitdata/test/../include/sym.hpp:51:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   51 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:68:18: warning: 'setScope' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   68 |     virtual void setScope(int scope);
+      |                  ^
+/coursegrader/submitdata/test/../include/sym.hpp:34:18: note: overridden virtual function is here
+   34 |     virtual void setScope(int scope){this->scope=scope;}
+      |                  ^
+/coursegrader/submitdata/test/../include/sym.hpp:69:25: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:83:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   83 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:97:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   97 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:112:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  112 |     std::string getName(){
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:69:25: note: overridden virtual function is here
+   69 |     virtual std::string getName(){
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:140:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  140 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:152:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  152 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/test/../include/sym.hpp:170:17: warning: 'getName' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  170 |     std::string getName(){return this->name;}
+      |                 ^
+/coursegrader/submitdata/test/../include/sym.hpp:35:25: note: overridden virtual function is here
+   35 |     virtual std::string getName(){return this->name;}
+      |                         ^
+/coursegrader/submitdata/test/BasicOperationTest.cpp:51:20: error: no matching function for call to 'createCallLLVM'
+   51 |     LLVM* callLLVM=LLVMfactory::createCallLLVM(func_dest,func,bs);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/coursegrader/submitdata/test/../include/LLVMFactory.hpp:25:22: note: candidate function not viable: no known conversion from 'std::vector' to 'std::vector &' for 3rd argument
+   25 |     static CallLLVM* createCallLLVM(BasicSymbol*dest_sym,FuncSymbol* func,std::vector& params);
+      |                      ^                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/coursegrader/submitdata/test/../include/LLVMFactory.hpp:26:22: note: candidate function not viable: requires 2 arguments, but 3 were provided
+   26 |     static CallLLVM* createCallLLVM(FuncSymbol* func,std::vector& params);
+      |                      ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/coursegrader/submitdata/test/BasicOperationTest.cpp:123:33: error: no matching function for call to 'createFuncDefination'
+  123 |     FuncDefination* funcdefllvm=LLVMfactory::createFuncDefination(func_decl,func_param);
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/coursegrader/submitdata/test/../include/LLVMFactory.hpp:77:28: note: candidate function not viable: no known conversion from 'vector' to 'vector' for 2nd argument
+   77 |     static FuncDefination* createFuncDefination(FuncSymbol* func,
+      |                            ^
+   78 |         std::vectorparam);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~
+/coursegrader/submitdata/test/../include/LLVMFactory.hpp:83:28: note: candidate function not viable: requires 3 arguments, but 2 were provided
+   83 |     static FuncDefination* createFuncDefination(FuncSymbol* func,
+      |                            ^                    ~~~~~~~~~~~~~~~~~
+   84 |         std::vectorparamTypes,std::vectorparam);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/coursegrader/submitdata/test/../include/LLVMFactory.hpp:80:28: note: candidate function not viable: requires 4 arguments, but 2 were provided
+   80 |     static FuncDefination* createFuncDefination(FuncSymbol* func,
+      |                            ^                    ~~~~~~~~~~~~~~~~~
+   81 |         std::vectorparamTypes,dataType returnType,std::vectorparam);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+9 warnings and 2 errors generated.
+/coursegrader/submitdata/test/test.cpp:30:1: warning: non-void function does not return a value [-Wreturn-type]
+   30 | }
+      | ^
+1 warning generated.
+
+    
+

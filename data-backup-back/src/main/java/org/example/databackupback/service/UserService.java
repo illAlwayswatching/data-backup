@@ -1,17 +1,17 @@
 package org.example.databackupback.service;
 
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/6 17:26
+ * @Date: 2024/9/11 16:04
  **/
 public interface UserService {
 
-    R login(String username, String password);
+    Response login(String username, String password);
 
-    R register(String username, String password);
+    Response register(String username, String password);
 
-    R delUser(Integer id);
+    Response delUser(Integer id);
 }

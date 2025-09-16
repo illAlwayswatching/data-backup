@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.example.databackupback.entity.BackupFileInfo;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/6 19:46
+ * @Date: 2025/9/12 23:19
  **/
 @Mapper
 public interface BackupFileInfoMapper extends BaseMapper<BackupFileInfo> {

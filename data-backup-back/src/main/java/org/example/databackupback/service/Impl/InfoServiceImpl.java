@@ -2,7 +2,7 @@ package org.example.databackupback.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 import org.example.databackupback.entity.BackupFile;
 import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
@@ -21,9 +21,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/6 17:48
+ * @Date: 2025/9/11 16:41
  **/
 @Slf4j
 @Service
@@ -37,16 +37,16 @@ public class InfoServiceImpl implements InfoService {
     private static final HashSet<String> compressPostfix = new HashSet<>(Arrays.asList("rar", "zip"));
 
     @Override
-    public R getEntries(String username, String path) {
-        File file = new File(R.USER_DATA + "/" + username + path);
+    public Response getEntries(String username, String path) {
+        File file = new File(Response.USER_DATA + "/" + username + path);
 
-        System.out.println(R.USER_DATA + "/" + username + path);
+        System.out.println(Response.USER_DATA + "/" + username + path);
 
         if (!file.isDirectory()) {
-            return R.error("不是目录地址");
+            return Response.error("不是目录地址");
         }
         File[] files = file.listFiles();
-        if (Objects.isNull(files)) return R.success("获取成功", null);
+        if (Objects.isNull(files)) return Response.success("获取成功", null);
         List<BackupFile> list = new ArrayList<>();
         for (File item : files) {
             BackupFile backupFile = new BackupFile();
@@ -87,21 +87,21 @@ public class InfoServiceImpl implements InfoService {
                 backupFile.setIsCompressed(compressPostfix.contains(postfix));
 
             } catch (Exception e) {
-                return R.error("获取失败");
+                return Response.error("获取失败");
             }
 
             list.add(backupFile);
         }
-        return R.success("获取成功", list);
+        return Response.success("获取成功", list);
     }
 
     @Override
-    public R delBackup(Integer id) {
+    public Response delBackup(Integer id) {
         BackupFileInfo info = backupFileInfoMapper.selectById(id);
-        File toDelete = new File(R.USER_DATA + info.getPath());
+        File toDelete = new File(Response.USER_DATA + info.getPath());
 
         if (toDelete.isDirectory()) {
-            if (Objects.requireNonNull(toDelete.list()).length > 0) return R.error("目录不为空，拒绝删除");
+            if (Objects.requireNonNull(toDelete.list()).length > 0) return Response.error("目录不为空，拒绝删除");
             else {
                 toDelete.delete();
                 backupFileInfoMapper.deleteById(id);
@@ -111,56 +111,56 @@ public class InfoServiceImpl implements InfoService {
             backupFileInfoMapper.deleteById(id);
         }
 
-        return R.success("成功删除");
+        return Response.success("成功删除");
     }
 
     @Override
-    public R addFolder(String username, String path, String folderName) {
-        String targetPath = R.USER_DATA + "/" + username + path;
+    public Response addFolder(String username, String path, String folderName) {
+        String targetPath = Response.USER_DATA + "/" + username + path;
         String dirPath = targetPath + folderName + "/";
 
         File target = new File(targetPath);
         if (!target.isDirectory()) {
             log.error("目标位置非目录");
-            return R.error("目标位置非目录");
+            return Response.error("目标位置非目录");
         }
 
         File dir = new File(dirPath);
         if (dir.exists()) {
             log.error("同名文件夹已存在");
-            return R.error("同名文件夹已存在");
+            return Response.error("同名文件夹已存在");
         }
 
         dir.mkdir();
         backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + path + folderName, null));
 
-        return R.success("新建文件夹成功");
+        return Response.success("新建文件夹成功");
     }
 
     @Override
-    public R copyInServer(String username, String fileId, String to) {
+    public Response copyInServer(String username, String fileId, String to) {
         BackupFileInfo info = backupFileInfoMapper.selectById(fileId);
 
-        String source = R.USER_DATA + info.getPath();
-        String target = R.USER_DATA + "/" + username + to;
+        String source = Response.USER_DATA + info.getPath();
+        String target = Response.USER_DATA + "/" + username + to;
 
         File sourceFile = new File(source);
         if (!sourceFile.exists()) {
             log.error("欲备份的文件不存在");
-            return R.error("欲备份的文件不存在");
+            return Response.error("欲备份的文件不存在");
         }
 
         File targetDir = new File(target);
         if (!targetDir.isDirectory()) {
             log.error("目标位置非目录");
-            return R.error("目标位置非目录");
+            return Response.error("目标位置非目录");
         }
 
         String final_path = R.USER_DATA + "/" + username + to + sourceFile.getName();
         File finalFile = new File(final_path);
         if (finalFile.exists()) {
             log.error("目标位置有同名文件");
-            return R.error("目标位置有同名文件");
+            return Response.error("目标位置有同名文件");
         }
 
         Path finalPath = Paths.get(final_path);
@@ -175,7 +175,7 @@ public class InfoServiceImpl implements InfoService {
         } catch (IOException e) {
             e.printStackTrace();
             log.error("拷贝文件出错");
-            return R.error("拷贝文件出错");
+            return Response.error("拷贝文件出错");
         }
 
         if (info.getKeyword() == null || info.getKeyword().isEmpty())
@@ -183,6 +183,6 @@ public class InfoServiceImpl implements InfoService {
         else
             backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), info.getKeyword()));
 
-        return R.success("拷贝文件成功");
+        return Response.success("拷贝文件成功");
     }
 }

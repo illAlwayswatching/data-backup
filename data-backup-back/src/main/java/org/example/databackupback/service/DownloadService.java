@@ -1,16 +1,16 @@
 package org.example.databackupback.service;
 
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/7 0:16
+ * @Date: 2025/9/11 16:46
  **/
 public interface DownloadService {
-    R downloadFile(String username, String target, HttpServletResponse response);
+    Response downloadFile(String username, String target, HttpServletResponse response);
 
-    R downloadFileDecrypt(String username, String target, String keyword, HttpServletResponse response);
+    Response downloadFileDecrypt(String username, String target, String keyword, HttpServletResponse response);
 
 }

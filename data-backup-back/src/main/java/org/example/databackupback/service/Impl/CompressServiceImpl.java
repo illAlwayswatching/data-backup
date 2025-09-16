@@ -2,7 +2,7 @@ package org.example.databackupback.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.example.databackupback.common.R;
+import org.example.databackupback.common.Response;
 import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
 import org.example.databackupback.service.CompressService;
@@ -21,9 +21,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * @Author:Gary
+ * @Author:Aoromandy
  * @ProjectName:data-backup-back
- * @Date: 2024/1/7 16:22
+ * @Date: 2025/9/11 16:54
  **/
 @Slf4j
 @Service
@@ -35,20 +35,20 @@ public class CompressServiceImpl implements CompressService {
     FileUtil fileUtil;
 
     @Override
-    public R compressByPath(String username, String target, String zipName, String[] source) {
+    public Response compressByPath(String username, String target, String zipName, String[] source) {
         if (zipName == null || zipName.isEmpty()) zipName = String.valueOf(System.currentTimeMillis());
 
         // 源路径处理
         List<File> sourceFile = new ArrayList<>();
         for (String item : source)
-            sourceFile.add(new File(R.USER_DATA + "/" + username + item));
+            sourceFile.add(new File(Response.USER_DATA + "/" + username + item));
 
         // 目标路径处理
-        String targetPath = R.USER_DATA + "/" + username + target;
+        String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
             log.error("压缩包存放的地址不是一个目录");
-            return R.error("压缩包存放的地址不是一个目录");
+            return Response.error("压缩包存放的地址不是一个目录");
         }
 
         File zipFile = new File(targetPath + zipName + ".zip");
@@ -59,28 +59,28 @@ public class CompressServiceImpl implements CompressService {
             e.printStackTrace();
             if (zipFile.exists()) zipFile.delete();
             log.error("压缩失败");
-            return R.error("压缩失败");
+            return Response.error("压缩失败");
         }
 
-        return R.success("压缩成功");
+        return Response.success("压缩成功");
     }
 
     @Override
-    public R compressByIds(String username, String target, String zipName, String[] sourceIds) {
+    public Response compressByIds(String username, String target, String zipName, String[] sourceIds) {
         if (zipName == null || zipName.isEmpty()) zipName = String.valueOf(System.currentTimeMillis());
 
         List<BackupFileInfo> list = backupFileInfoMapper.selectBatchIds(Arrays.asList(sourceIds));
         log.info(String.valueOf(list));
         List<File> sourceFile = new ArrayList<>();
         for (BackupFileInfo item : list)
-            sourceFile.add(new File(R.USER_DATA + item.getPath()));
+            sourceFile.add(new File(Response.USER_DATA + item.getPath()));
 
         // 目标路径处理
-        String targetPath = R.USER_DATA + "/" + username + target;
+        String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
             log.error("压缩包存放的地址不是一个目录");
-            return R.error("压缩包存放的地址不是一个目录");
+            return Response.error("压缩包存放的地址不是一个目录");
         }
 
         File zipFile = new File(targetPath + zipName + ".zip");
@@ -91,10 +91,10 @@ public class CompressServiceImpl implements CompressService {
             e.printStackTrace();
             if (zipFile.exists()) zipFile.delete();
             log.error("压缩失败");
-            return R.error("压缩失败");
+            return Response.error("压缩失败");
         }
 
-        return R.success("压缩成功");
+        return Response.success("压缩成功");
     }
 
     private void compressHandler(List<File> sourceFile, File zipFile) throws IOException {
