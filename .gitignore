@@ -6,9 +6,13 @@ target/
 .idea/
 #忽略所有.iml文件
 *.iml
+*.xls
+*.xlsx
+*.docx
 #忽略所有.history目录
 .history
-
+.vscode/
+data-backup-back/data/
 .DS_Store
 node_modules/
 dist/

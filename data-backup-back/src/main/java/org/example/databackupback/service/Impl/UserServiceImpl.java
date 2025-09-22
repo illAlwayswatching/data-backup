@@ -50,11 +50,11 @@ public class UserServiceImpl implements UserService {
             return Response.error("用户名重复，注册失败");
         }
 
-        if (userMapper.insert(user) > 0)
+        if (userMapper.insert(user) > 0){
+            File initial = new File(Response.USER_DATA + "/" + username + "/");
+            if (!initial.exists()) initial.mkdirs();
             return Response.success("注册成功");
-
-        File initial = new File(Response.USER_DATA + "/" + username + "/");
-        if (!initial.exists()) initial.mkdirs();
+        }
 
         return Response.error("注册失败");
     }

@@ -11,6 +11,7 @@
         </el-form-item>
         <el-form-item>
           <el-button class="login-btn" type="primary" @click="submitForm">登录</el-button>
+          <el-button class="login-btn" type="primary" @click="register">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -37,6 +38,22 @@
     password: [{ required: true, message: "请输入密码", trigger: "blur" }],
   })
 
+  async function register() {
+    let username = ruleForm.username
+    let password = ruleForm.password
+
+    const result = (await api.register({username,password}))
+
+    if (result.type === 'success') {
+      ElMessage({
+        message: result.message,
+        type: 'success',
+      })
+    } else {
+      ElMessage.error(result.message)
+    }
+  }
+  
   async function submitForm() {
     let username = ruleForm.username
     let password = ruleForm.password

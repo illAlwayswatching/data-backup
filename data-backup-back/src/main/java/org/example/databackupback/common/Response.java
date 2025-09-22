@@ -8,10 +8,6 @@ import lombok.Data;
  * @Date: 2025/9/11 11:26
  **/
 @Data
-public class A{
-    private String name;
-};
-
 public class Response {
     private String message;
 

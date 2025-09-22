@@ -1,7 +1,8 @@
 import axios from 'axios'
 
-const BASE_URL = "http://43.248.188.73:11234/"
+// const BASE_URL = "http://43.248.188.73:11234/"
 // const BASE_URL = "http://192.168.0.186:8888/"
+const BASE_URL = "http://localhost:8888/"
 
 axios.defaults.timeout = 5000 // 超时时间设置
 axios.defaults.withCredentials = true // true允许跨域

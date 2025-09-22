@@ -3,6 +3,8 @@ import { deletes, get, getBaseURL, post } from './request'
 const api = {
   // 是否登录成功
   getLoginStatus: ({username, password}) => post(`user/login`, {username, password}),
+  // 注册
+  register: ({username, password}) => post(`user/register`, {username, password}),
   // 获取目录项
   getInfo: (username, path) => get(`info/?username=${username}&path=${path}`),
   // 新建文件夹
