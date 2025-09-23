@@ -86,18 +86,8 @@
   let tempFileInfo = ref([])
   let algorithm = ref('AES')
 
-  const addFile = async() => {
-      ElMessageBox.confirm(
-      '请问是否加密文件?',
-      '上传文件',
-      {
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        type: 'warning',
-        distinguishCancelAndClose: true,
-      })
-      .then(() => {
-        ElMessageBox({
+  const createChoseAlgorithmBox = () => {
+    ElMessageBox({
           title: '请选择加密算法',
           message: h('div', [
             h(ElSelect, {
@@ -110,6 +100,10 @@
               'onUpdate:modelValue': (value) => {
                 algorithm.value = value
                 console.log('选择的算法:', value) // 添加日志查看是否触发
+                ElMessageBox.close()
+                setTimeout(() => {
+                  createChoseAlgorithmBox () // 递归调用，重新打开
+                }, 100) // 短暂延迟确保关闭完成
       }
             }, [
               h(ElOption, { label: 'AES-128', value: 'AES' }),
@@ -155,7 +149,22 @@
         })
         console.log('加密')
       })
-      .catch((action) => {
+
+  }
+  
+  const addFile = async() => {
+      ElMessageBox.confirm(
+      '请问是否加密文件?',
+      '上传文件',
+      {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        type: 'warning',
+        distinguishCancelAndClose: true,
+      })
+      .then(() => {
+        createChoseAlgorithmBox()
+  }).catch((action) => {
         if (action === 'cancel'){
           console.log('不加密')
           isEncrypted.value = false
@@ -168,9 +177,43 @@
           })
         }
       })
-  })
 }
 
+const downloadFile = (source, flag) => {
+    if (flag) {
+      ElMessageBox.confirm(
+        '请问是否解密文件?',
+        '下载文件',
+        {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }
+      )
+      .then(() => {
+        ElMessageBox.prompt('请输入16位数字密钥', 'Tip', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          inputPattern: /^\d{16}$/,
+          inputErrorMessage: 'Invalid Keyword',
+        })
+        .then(({ value }) => {
+          download(true, source, value)
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'info',
+            message: '操作取消',
+          })
+        })
+      })
+      .catch(() => {
+        download(false, source, '')
+      })
+    } else {
+      download(false, source, '')
+    }
+  }
 
   const compress = async (fileId) => {
     ElMessageBox.prompt('请输入压缩之后的文件名', '压缩', {

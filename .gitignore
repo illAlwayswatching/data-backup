@@ -12,6 +12,7 @@ target/
 #忽略所有.history目录
 .history
 .vscode/
+test/
 
 data-backup-back/data/
 .DS_Store

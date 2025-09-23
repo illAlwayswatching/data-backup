@@ -120,10 +120,10 @@
                         </path> -->
                     </annotationProcessorPaths>
                     <excludes>
-                        <!-- <exclude>
+                        <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                        </exclude> -->
+                        </exclude>
                     </excludes>
                 </configuration>
             </plugin>
