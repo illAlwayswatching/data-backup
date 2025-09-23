@@ -13,4 +13,11 @@ public interface UploadService {
 
     Response uploadFileEncrypt(String username, String target, String keyword, MultipartFile file);
 
+    Response uploadFileEncryptSerpent(String username, String target, String keyword, MultipartFile file);
+    
+    Response uploadFileEncryptChacha20(String username, String target, String keyword, MultipartFile file);
+
+    Response uploadFileEncryptTwofish(String username, String target, String keyword, MultipartFile file);
+
+    Response uploadFileEncryptCamellia(String username, String target, String keyword, MultipartFile file);
 }

@@ -30,4 +30,24 @@ public class UploadController {
     public Response uploadFileEncrypt(String username, String target, String keyword, MultipartFile file) {
         return uploadService.uploadFileEncrypt(username, target, keyword, file);
     }
+
+    @PostMapping("/fileEncryptSerpent")
+    public Response uploadFileEncryptSerpent(String username, String target, String keyword, MultipartFile file) {
+        return uploadService.uploadFileEncryptSerpent(username, target, keyword, file);
+    }
+
+    @PostMapping("/fileEncryptChacha20")
+    public Response uploadFileEncryptChacha20(String username, String target, String keyword, MultipartFile file) {
+        return uploadService.uploadFileEncrypt(username, target, keyword, file);
+    }
+
+    @PostMapping("/fileEncryptTwofish")
+    public Response uploadFileEncryptTwofish(String username, String target, String keyword, MultipartFile file) {
+        return uploadService.uploadFileEncryptTwofish(username, target, keyword, file);
+    }
+
+    @PostMapping("/fileEncryptCamellia")
+    public Response uploadFileEncryptCamellia(String username, String target, String keyword, MultipartFile file) {
+        return uploadService.uploadFileEncryptCamellia(username, target, keyword, file);
+    }
 }

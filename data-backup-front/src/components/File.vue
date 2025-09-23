@@ -61,11 +61,11 @@
 
 <script setup name="File">
   import { Search, UploadFilled } from '@element-plus/icons-vue'
-  import { ref } from 'vue'
+  import { h,ref } from 'vue'
   import { onFileMenu } from '@/utils/menu'
   import { api } from '@/utils/api'
   import { useCounterStore } from '@/stores/counter'
-  import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
+  import { ElButton, ElMessage, ElMessageBox,ElOption,ElSelect } from 'element-plus'
   import "element-plus/theme-chalk/el-loading.css";
   import "element-plus/theme-chalk/el-message.css";
   import "element-plus/theme-chalk/el-notification.css";
@@ -84,101 +84,93 @@
   let loadParams = ref({username: counterStore.account.replace(/\"/g, ""), target: path})
   let fileInfo = ref([])
   let tempFileInfo = ref([])
+  let algorithm = ref('AES')
 
-
-  const addFile = () => {
-    ElMessageBox.confirm(
+  const addFile = async() => {
+      ElMessageBox.confirm(
       '请问是否加密文件?',
       '上传文件',
       {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         type: 'warning',
-      }
-    )
-    .then(() => {
-      ElMessageBox.prompt('请输入16位数字密钥', 'Tip', {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        inputPattern: /^\d{16}$/,
-        inputErrorMessage: 'Invalid Keyword',
+        distinguishCancelAndClose: true,
       })
-      .then(({ value }) => {
-        isEncrypted.value = true
-        loadParams.value.keyword = value
-        centerDialogVisible.value = true
-      })
-      .catch(() => {
-        ElMessage({
-          type: 'info',
-          message: '操作取消',
-        })
-      })
-    })
-    .catch(() => {
-      centerDialogVisible.value = true
-    })
-  }
-
-  const downloadFile = (source, flag) => {
-    if (flag) {
-      ElMessageBox.confirm(
-        '请问是否解密文件?',
-        '下载文件',
-        {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning',
-        }
-      )
       .then(() => {
-        ElMessageBox.prompt('请输入16位数字密钥', 'Tip', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          inputPattern: /^\d{16}$/,
-          inputErrorMessage: 'Invalid Keyword',
-        })
-        .then(({ value }) => {
-          download(true, source, value)
-        })
-        .catch(() => {
+        ElMessageBox({
+          title: '请选择加密算法',
+          message: h('div', [
+            h(ElSelect, {
+              modelValue: algorithm.value,
+              placeholder: '请选择加密算法',
+              style: 'width: 100%;',
+              // onChange: (value) => {
+              //   algorithm.value = value
+              // },
+              'onUpdate:modelValue': (value) => {
+                algorithm.value = value
+                console.log('选择的算法:', value) // 添加日志查看是否触发
+      }
+            }, [
+              h(ElOption, { label: 'AES-128', value: 'AES' }),
+              h(ElOption, { label: 'Serpent', value: 'Serpent' }),
+              h(ElOption, { label: 'Twofish', value: 'Twofish' }),
+              h(ElOption, { label: 'Camellia', value: 'Camellia' }),
+              h(ElOption, { label: 'Chacha20', value: 'Chacha20' }),
+            ])
+          ]),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          closeOnClickModal: false,
+          closeOnPressEscape: false,
+        }).then(() => {
+          ElMessage({
+            type: 'info',
+            message: `已选择${algorithm.value}算法`,
+          })
+
+          ElMessageBox.prompt(`已选择${algorithm.value}算法,请输入16位数字密钥`, 'Tip', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            inputPattern: /^\d{16}$/,
+            inputErrorMessage: 'Invalid Keyword',
+          })
+          .then(({ value }) => {
+            isEncrypted.value = true
+            loadParams.value.keyword = value
+            centerDialogVisible.value = true
+          })
+          .catch(() => {
+            ElMessage({
+              type: 'info',
+              message: '操作取消',
+            })
+
+        }).catch(() => {
           ElMessage({
             type: 'info',
             message: '操作取消',
           })
         })
+        console.log('加密')
       })
-      .catch(() => {
-        download(false, source, '')
+      .catch((action) => {
+        if (action === 'cancel'){
+          console.log('不加密')
+          isEncrypted.value = false
+          centerDialogVisible.value = true
+
+        }else if (action === 'close'){
+          ElMessage({
+            type: 'info',
+            message: '操作取消',
+          })
+        }
       })
-    } else {
-      download(false, source, '')
-    }
-  }
+  })
+}
 
-  const buildFoler = async () => {
-    ElMessageBox.prompt('请输入文件夹名', '新建文件夹', {
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-    })
-    .then(async ({ value }) => {
-      const res = (await api.buildFoler(value, counterStore.account.replace(/\"/g, ""), path))
-
-      if (res.type === 'success') {
-        ElMessage({
-          type: 'success',
-          message: res.message,
-        })
-
-        getInfo()
-      } else {
-        ElMessage.error(res.message)
-      }
-    })
-    .catch(() => {
-      ElMessage("操作取消")
-    })
-  }
 
   const compress = async (fileId) => {
     ElMessageBox.prompt('请输入压缩之后的文件名', '压缩', {
@@ -302,7 +294,17 @@
 
   function uploadFile() {
     if (isEncrypted.value === true) {
-      return api.uploadEncryptedFile()
+      if(algorithm.value === 'AES') {
+        return api.uploadEncryptedFile()
+      } else if (algorithm.value === 'Serpent') {
+        return api.uploadEncryptedFileSerpent()
+      } else if (algorithm.value === 'Twofish') {
+        return api.uploadEncryptedFileTwofish()
+      } else if (algorithm.value === 'Camellia') {
+        return api.uploadEncryptedFileCamellia()
+      } else if (algorithm.value === 'Chacha20') {
+        return api.uploadEncryptedFileChacha20()
+      }
     } else {
       return api.uploadFile()
     }

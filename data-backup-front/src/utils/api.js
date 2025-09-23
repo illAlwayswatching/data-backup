@@ -13,6 +13,10 @@ const api = {
   deleteFolder: (folderId) => deletes(`info/${folderId}`),
   // 上传文件
   uploadEncryptedFile: () => `${getBaseURL()}upload/fileEncrypt`,
+  uploadEncryptedFileSerpent: () => `${getBaseURL()}upload/fileEncryptSerpent`,
+  uploadEncryptedFileTwofish: () => `${getBaseURL()}upload/fileEncryptTwofish`,
+  uploadEncryptedCamellia: () => `${getBaseURL()}upload/fileEncryptCamellia`,
+  uploadEncyptedChacha20: () => `${getBaseURL()}upload/fileEncryptChacha20`,
   uploadFile: () => `${getBaseURL()}upload/file`,
   // 压缩
   compress: (username, target, zipName, sourceIds) => post(`compress/byId`, {username, target, zipName, sourceIds}),

@@ -156,7 +156,7 @@ public class InfoServiceImpl implements InfoService {
             return Response.error("目标位置非目录");
         }
 
-        String final_path = R.USER_DATA + "/" + username + to + sourceFile.getName();
+        String final_path = Response.USER_DATA + "/" + username + to + sourceFile.getName();
         File finalFile = new File(final_path);
         if (finalFile.exists()) {
             log.error("目标位置有同名文件");
