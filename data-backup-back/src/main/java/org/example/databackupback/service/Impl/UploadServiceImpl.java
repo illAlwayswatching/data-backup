@@ -54,7 +54,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
         // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, null));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, null,null));
 
         return Response.success("备份成功");
     }
@@ -84,7 +84,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
         // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "AES"));
 
         return Response.success("加密备份成功");
     }
@@ -114,7 +114,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
         // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "Serpent"));
 
         return Response.success("加密备份成功");
     }
@@ -136,7 +136,7 @@ public class UploadServiceImpl implements UploadService {
         // 加密备份
         Path destPath = Paths.get(dest_path);
         try {
-            EncryptLTY.chacha20Encrpt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            EncryptLTY.chacha20Encrypt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
             log.error("文件加密备份失败");
             e.printStackTrace();
@@ -144,7 +144,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
         // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword,"Chacha20"));   
 
         return Response.success("加密备份成功");
     }
@@ -166,7 +166,7 @@ public class UploadServiceImpl implements UploadService {
         // 加密备份
         Path destPath = Paths.get(dest_path);
         try {
-            EncryptLTY.twoFishEncrpt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            EncryptLTY.twoFishEncrypt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
             log.error("文件加密备份失败");
             e.printStackTrace();
@@ -174,7 +174,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
         // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "Twofish"));
 
         return Response.success("加密备份成功");
     }
@@ -204,7 +204,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
         // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "Camellia"));
 
         return Response.success("加密备份成功");
     }

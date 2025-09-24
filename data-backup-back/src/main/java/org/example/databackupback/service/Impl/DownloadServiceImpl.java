@@ -8,6 +8,8 @@ import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
 import org.example.databackupback.service.DownloadService;
 import org.example.databackupback.utils.EncryptUtil;
+import org.example.databackupback.utils.EncryptLTY;
+import org.example.databackupback.utils.EncryptWZA;
 import org.example.databackupback.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,7 +128,21 @@ public class DownloadServiceImpl implements DownloadService {
         Path sourcePath = Paths.get(source_path);
         try (InputStream is = Files.newInputStream(sourcePath)) {
             OutputStream os = response.getOutputStream();
-            EncryptUtil.decryptFile(is, os, keyword, file.getName());
+            if (info.getAlgorithm().equals("Chacha20")) {
+                EncryptLTY.chacha20Decrypt(is, os, keyword, file.getName());
+            }
+            else if (info.getAlgorithm().equals("Twofish")) {
+                EncryptLTY.twofishDecrypt(is, os, keyword, file.getName());
+            }
+            else if (info.getAlgorithm().equals("Serpent")) {
+                EncryptWZA.decrypt("Serpent", is, os, keyword, file.getName());
+            }
+            else if (info.getAlgorithm().equals("Camellia")) {
+                EncryptWZA.decrypt("Camellia", is, os, keyword, file.getName());
+            }
+            else if (info.getAlgorithm().equals("AES")) {
+                EncryptUtil.decryptFile(is, os, keyword, file.getName());
+            }
             os.close();
         } catch (Exception e) {
             log.error("文件解密还原失败");

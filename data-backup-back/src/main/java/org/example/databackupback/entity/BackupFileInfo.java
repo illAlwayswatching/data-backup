@@ -19,4 +19,5 @@ public class BackupFileInfo {
     private Integer id;
     private String path;
     private String keyword;
+    private String algorithm;
 }

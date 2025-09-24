@@ -38,7 +38,7 @@ public class UploadController {
 
     @PostMapping("/fileEncryptChacha20")
     public Response uploadFileEncryptChacha20(String username, String target, String keyword, MultipartFile file) {
-        return uploadService.uploadFileEncrypt(username, target, keyword, file);
+        return uploadService.uploadFileEncryptChacha20(username, target, keyword, file);
     }
 
     @PostMapping("/fileEncryptTwofish")
