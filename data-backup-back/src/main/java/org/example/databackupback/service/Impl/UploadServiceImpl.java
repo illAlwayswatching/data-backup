@@ -40,7 +40,7 @@ public class UploadServiceImpl implements UploadService {
         System.out.println(dir_path);
         File dir = new File(dir_path);
         if (!dir.exists()) {
-            log.error("目标目录不存在");
+            //log.error("目标目录不存在");
             return Response.error("目标目录不存在");
         }
 
@@ -49,7 +49,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             file.transferTo(dest);
         } catch (IOException e) {
-            log.error("文件备份失败");
+            //log.error("文件备份失败");
             return Response.error("文件备份失败");
         }
 
@@ -69,7 +69,7 @@ public class UploadServiceImpl implements UploadService {
         System.out.println(dir_path);
         File dir = new File(dir_path);
         if (!dir.exists()) {
-            log.error("目标目录不存在");
+            //log.error("目标目录不存在");
             return Response.error("目标目录不存在");
         }
 
@@ -78,7 +78,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             EncryptUtil.encryptFile(file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
-            log.error("文件加密备份失败");
+            //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
@@ -99,7 +99,7 @@ public class UploadServiceImpl implements UploadService {
         System.out.println(dir_path);
         File dir = new File(dir_path);
         if (!dir.exists()) {
-            log.error("目标目录不存在");
+            //log.error("目标目录不存在");
             return Response.error("目标目录不存在");
         }
 
@@ -108,7 +108,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             EncryptWZA.encrypt("Serpent",file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
-            log.error("文件加密备份失败");
+            //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
@@ -129,7 +129,7 @@ public class UploadServiceImpl implements UploadService {
         System.out.println(dir_path);
         File dir = new File(dir_path);
         if (!dir.exists()) {
-            log.error("目标目录不存在");
+            //log.error("目标目录不存在");
             return Response.error("目标目录不存在");
         }
 
@@ -138,7 +138,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             EncryptLTY.chacha20Encrypt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
-            log.error("文件加密备份失败");
+            //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
@@ -159,7 +159,7 @@ public class UploadServiceImpl implements UploadService {
         System.out.println(dir_path);
         File dir = new File(dir_path);
         if (!dir.exists()) {
-            log.error("目标目录不存在");
+            //log.error("目标目录不存在");
             return Response.error("目标目录不存在");
         }
 
@@ -168,7 +168,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             EncryptLTY.twoFishEncrypt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
-            log.error("文件加密备份失败");
+            //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
@@ -189,7 +189,7 @@ public class UploadServiceImpl implements UploadService {
         System.out.println(dir_path);
         File dir = new File(dir_path);
         if (!dir.exists()) {
-            log.error("目标目录不存在");
+            //log.error("目标目录不存在");
             return Response.error("目标目录不存在");
         }
 
@@ -198,7 +198,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             EncryptWZA.encrypt("Camellia",file.getInputStream(), Files.newOutputStream(destPath), keyword);
         } catch (Exception e) {
-            log.error("文件加密备份失败");
+            //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }

@@ -55,18 +55,18 @@ public class DownloadServiceImpl implements DownloadService {
 
         File file = new File(source_path);
         if (!file.exists()) {
-            log.error("源文件不存在");
+            //log.error("源文件不存在");
             return Response.error("源文件不存在");
         }
         if (file.isDirectory()) {
-            log.error("不能为目录文件");
+            //log.error("不能为目录文件");
             return Response.error("不能为目录文件");
         }
 
         try {
             setResponse(response, file);
         } catch (UnsupportedEncodingException e) {
-            log.error("设置返回数据失败");
+            //log.error("设置返回数据失败");
             return Response.error("设置返回数据失败");
         }
 
@@ -82,7 +82,7 @@ public class DownloadServiceImpl implements DownloadService {
 //            OutputStream os  = response.getOutputStream();
 //            IOUtils.copy(bis, os);
         } catch (IOException e) {
-            log.error("还原失败", e);
+            //log.error("还原失败", e);
             return Response.error("还原失败");
         }
 
@@ -98,11 +98,11 @@ public class DownloadServiceImpl implements DownloadService {
 
         File file = new File(source_path);
         if (!file.exists()) {
-            log.error("源文件不存在");
+            //log.error("源文件不存在");
             return Response.error("源文件不存在");
         }
         if (file.isDirectory()) {
-            log.error("不能为目录文件");
+            //log.error("不能为目录文件");
             return Response.error("不能为目录文件");
         }
         QueryWrapper<BackupFileInfo> wrapper = new QueryWrapper<>();
@@ -110,18 +110,18 @@ public class DownloadServiceImpl implements DownloadService {
         BackupFileInfo info = backupFileInfoMapper.selectOne(wrapper);
 
         if (info.getKeyword() == null) {
-            log.error("不是加密文件");
+            //log.error("不是加密文件");
             return Response.error("不是加密文件");
         }
         if (!info.getKeyword().equals(keyword)) {
-            log.error("加密密钥错误");
+            //log.error("加密密钥错误");
             return Response.error("加密密钥错误");
         }
 
         try {
             setResponse(response, file);
         } catch (UnsupportedEncodingException e) {
-            log.error("设置返回数据失败");
+            //log.error("设置返回数据失败");
             return Response.error("设置返回数据失败");
         }
 
@@ -145,7 +145,7 @@ public class DownloadServiceImpl implements DownloadService {
             }
             os.close();
         } catch (Exception e) {
-            log.error("文件解密还原失败");
+            //log.error("文件解密还原失败");
             e.printStackTrace();
             return Response.error("文件解密还原失败");
         }

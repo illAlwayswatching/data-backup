@@ -26,7 +26,7 @@ public class FileUtil {
         dir.mkdir();
         String pathToStore = getPathToStore(dir);
         System.out.println(pathToStore);
-        backupFileInfoMapper.insert(new BackupFileInfo(null, pathToStore, null));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, pathToStore, null,null));
     }
 
     public String getPathToStore(File file) {

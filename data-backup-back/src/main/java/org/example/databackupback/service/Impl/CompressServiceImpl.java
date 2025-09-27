@@ -47,7 +47,7 @@ public class CompressServiceImpl implements CompressService {
         String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
-            log.error("压缩包存放的地址不是一个目录");
+            //log.error("压缩包存放的地址不是一个目录");
             return Response.error("压缩包存放的地址不是一个目录");
         }
 
@@ -58,7 +58,7 @@ public class CompressServiceImpl implements CompressService {
         } catch (IOException e) {
             e.printStackTrace();
             if (zipFile.exists()) zipFile.delete();
-            log.error("压缩失败");
+            //log.error("压缩失败");
             return Response.error("压缩失败");
         }
 
@@ -70,7 +70,7 @@ public class CompressServiceImpl implements CompressService {
         if (zipName == null || zipName.isEmpty()) zipName = String.valueOf(System.currentTimeMillis());
 
         List<BackupFileInfo> list = backupFileInfoMapper.selectBatchIds(Arrays.asList(sourceIds));
-        log.info(String.valueOf(list));
+        //log.info(String.valueOf(list));
         List<File> sourceFile = new ArrayList<>();
         for (BackupFileInfo item : list)
             sourceFile.add(new File(Response.USER_DATA + item.getPath()));
@@ -79,7 +79,7 @@ public class CompressServiceImpl implements CompressService {
         String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
-            log.error("压缩包存放的地址不是一个目录");
+            //log.error("压缩包存放的地址不是一个目录");
             return Response.error("压缩包存放的地址不是一个目录");
         }
 
@@ -90,7 +90,7 @@ public class CompressServiceImpl implements CompressService {
         } catch (IOException e) {
             e.printStackTrace();
             if (zipFile.exists()) zipFile.delete();
-            log.error("压缩失败");
+            //log.error("压缩失败");
             return Response.error("压缩失败");
         }
 
@@ -115,12 +115,12 @@ public class CompressServiceImpl implements CompressService {
         zos.close();
 
         String PathToStore = fileUtil.getPathToStore(zipFile);
-        backupFileInfoMapper.insert(new BackupFileInfo(null, PathToStore, null));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, PathToStore, null,null));
     }
 
     private void compressUnit(File sourceFile, ZipOutputStream zos, String fileName) throws IOException {
-//        log.info(sourceFile.getPath());
-        log.info(fileName);
+//        //log.info(sourceFile.getPath());
+        //log.info(fileName);
         if (sourceFile.isDirectory()) {
             //创建文件夹
             zos.putNextEntry(new ZipEntry(fileName + "/"));
@@ -131,7 +131,7 @@ public class CompressServiceImpl implements CompressService {
             }
         } else {
             String pathToStore = fileUtil.getPathToStore(sourceFile);
-//            log.debug(pathToStore);
+//            //log.debug(pathToStore);
 
             QueryWrapper<BackupFileInfo> wrapper = new QueryWrapper<>();
             wrapper.eq("path", pathToStore);

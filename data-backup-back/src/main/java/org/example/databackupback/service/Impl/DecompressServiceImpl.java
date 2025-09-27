@@ -36,7 +36,7 @@ public class DecompressServiceImpl implements DecompressService {
         String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
-            log.error("欲解压的地址不是一个目录");
+            //log.error("欲解压的地址不是一个目录");
             return Response.error("欲解压的地址不是一个目录");
         }
 
@@ -44,7 +44,7 @@ public class DecompressServiceImpl implements DecompressService {
             decompressHandler(zipFile, targetDir);
         } catch (IOException e) {
             e.printStackTrace();
-            log.error("解压失败");
+            //log.error("解压失败");
             Response.error("解压失败");
         }
 
@@ -59,7 +59,7 @@ public class DecompressServiceImpl implements DecompressService {
         String targetPath = Response.USER_DATA + "/" + username + target;
         File targetDir = new File(targetPath);
         if (!targetDir.isDirectory()) {
-            log.error("欲解压的地址不是一个目录");
+            //log.error("欲解压的地址不是一个目录");
             return Response.error("欲解压的地址不是一个目录");
         }
 
@@ -67,7 +67,7 @@ public class DecompressServiceImpl implements DecompressService {
             decompressHandler(zipFile, targetDir);
         } catch (IOException e) {
             e.printStackTrace();
-            log.error("解压失败");
+            //log.error("解压失败");
             Response.error("解压失败");
         }
 
@@ -108,7 +108,7 @@ public class DecompressServiceImpl implements DecompressService {
                 }
                 bufferedOutputStream.close();
 
-                backupFileInfoMapper.insert(new BackupFileInfo(null, pathToStore, null));
+                backupFileInfoMapper.insert(new BackupFileInfo(null, pathToStore, null,null));
             }
             zipInputStream.closeEntry();
             zipEntry = zipInputStream.getNextEntry();

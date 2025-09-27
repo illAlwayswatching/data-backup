@@ -121,18 +121,18 @@ public class InfoServiceImpl implements InfoService {
 
         File target = new File(targetPath);
         if (!target.isDirectory()) {
-            log.error("目标位置非目录");
+            //log.error("目标位置非目录");
             return Response.error("目标位置非目录");
         }
 
         File dir = new File(dirPath);
         if (dir.exists()) {
-            log.error("同名文件夹已存在");
+            //log.error("同名文件夹已存在");
             return Response.error("同名文件夹已存在");
         }
 
         dir.mkdir();
-        backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + path + folderName, null));
+        backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + path + folderName, null,null));
 
         return Response.success("新建文件夹成功");
     }
@@ -146,20 +146,20 @@ public class InfoServiceImpl implements InfoService {
 
         File sourceFile = new File(source);
         if (!sourceFile.exists()) {
-            log.error("欲备份的文件不存在");
+            //log.error("欲备份的文件不存在");
             return Response.error("欲备份的文件不存在");
         }
 
         File targetDir = new File(target);
         if (!targetDir.isDirectory()) {
-            log.error("目标位置非目录");
+            //log.error("目标位置非目录");
             return Response.error("目标位置非目录");
         }
 
         String final_path = Response.USER_DATA + "/" + username + to + sourceFile.getName();
         File finalFile = new File(final_path);
         if (finalFile.exists()) {
-            log.error("目标位置有同名文件");
+            //log.error("目标位置有同名文件");
             return Response.error("目标位置有同名文件");
         }
 
@@ -174,14 +174,14 @@ public class InfoServiceImpl implements InfoService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            log.error("拷贝文件出错");
+            //log.error("拷贝文件出错");
             return Response.error("拷贝文件出错");
         }
 
         if (info.getKeyword() == null || info.getKeyword().isEmpty())
-            backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), null));
+            backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), null,null));
         else
-            backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), info.getKeyword()));
+            backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), info.getKeyword(), info.getAlgorithm()));
 
         return Response.success("拷贝文件成功");
     }

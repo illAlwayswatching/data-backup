@@ -179,6 +179,30 @@
       })
 }
 
+const buildFoler = async () => {
+    ElMessageBox.prompt('请输入文件夹名', '新建文件夹', {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+    })
+    .then(async ({ value }) => {
+      const res = (await api.buildFoler(value, counterStore.account.replace(/\"/g, ""), path))
+
+      if (res.type === 'success') {
+        ElMessage({
+          type: 'success',
+          message: res.message,
+        })
+
+        getInfo()
+      } else {
+        ElMessage.error(res.message)
+      }
+    })
+    .catch(() => {
+      ElMessage("操作取消")
+    })
+  }
+  
 const downloadFile = (source, flag) => {
     if (flag) {
       ElMessageBox.confirm(
