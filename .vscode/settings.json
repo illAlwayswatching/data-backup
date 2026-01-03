@@ -1,0 +1,18 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.maven.userSettings": null,
+  "java.import.maven.enabled": true,
+  "java.jdt.ls.java.home": null,
+  "java.configuration.runtimes": [],
+  "java.project.referencedLibraries": [
+    "data-backup-back/target/**/*.jar",
+    "data-backup-back/lombok.jar"
+  ],
+  "files.exclude": {
+    "**/target": false
+  },
+  "java.configuration.maven.notCoveredPluginExecutionSeverity": "ignore",
+  "java.import.gradle.enabled": false,
+  "java.configuration.checkProjectSettingsExclusions": false
+}

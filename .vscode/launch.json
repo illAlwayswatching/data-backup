@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch DataBackupBackApplication",
+      "request": "launch",
+      "mainClass": "org.example.databackupback.DataBackupBackApplication",
+      "projectName": "data-backup-back",
+      "args": "",
+      "vmArgs": "-Dspring.profiles.active=dev",
+      "cwd": "${workspaceFolder}/data-backup-back"
+    },
+    {
+      "type": "java",
+      "name": "Launch Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    }
+  ]
+}

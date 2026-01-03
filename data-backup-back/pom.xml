@@ -110,15 +110,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>org.</mainClass> <!-- 主类（启动类） -->
+                    <mainClass>org.example.databackupback.DataBackupBackApplication</mainClass> <!-- 主类（启动类） -->
                     <image>
                         <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
-                    <executions>
-                <execution>
-                    <goals>
-                        <goal>repackage</goal> <!-- 执行 repackage 目标 -->
-                    </goals>
                     <excludes>
                         <!-- <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -126,6 +121,13 @@
                         </exclude> -->
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!-- 执行 repackage 目标 -->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

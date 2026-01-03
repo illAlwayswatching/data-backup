@@ -1,0 +1,51 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "maven: clean",
+      "type": "shell",
+      "command": "mvn clean",
+      "options": {
+        "cwd": "${workspaceFolder}/data-backup-back"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "maven: compile",
+      "type": "shell",
+      "command": "mvn compile",
+      "options": {
+        "cwd": "${workspaceFolder}/data-backup-back"
+      },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "maven: package",
+      "type": "shell",
+      "command": "mvn package",
+      "options": {
+        "cwd": "${workspaceFolder}/data-backup-back"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "maven: spring-boot:run",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/data-backup-back"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "maven: test",
+      "type": "shell",
+      "command": "mvn test",
+      "options": {
+        "cwd": "${workspaceFolder}/data-backup-back"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
+

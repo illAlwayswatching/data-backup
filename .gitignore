@@ -11,7 +11,12 @@ target/
 *.docx
 #忽略所有.history目录
 .history
-.vscode/
+# 允许 .vscode 配置文件被提交（Cursor/VS Code 需要这些配置来识别 Java 项目）
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
 test/
 
 data-backup-back/data/

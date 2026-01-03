@@ -6,12 +6,13 @@ target/
 
 ### STS ###
 .apt_generated
-.classpath
 .factorypath
-.project
 .settings
 .springBeans
 .sts4-cache
+# 允许 .project 和 .classpath 被提交（Cursor/VS Code 需要这些文件来识别 Java 项目）
+# .classpath
+# .project
 
 ### IntelliJ IDEA ###
 .idea
