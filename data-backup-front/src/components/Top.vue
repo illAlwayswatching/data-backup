@@ -6,7 +6,7 @@
       <div class="header-user-con">
         <!-- 用户头像 -->
         <div class="user-avator">
-          <img src="@/assets/images/admin.png"/>
+          <img src="@/assets/images/user.jpeg"/>
         </div>
 
         <!-- 用户名下拉菜单 -->

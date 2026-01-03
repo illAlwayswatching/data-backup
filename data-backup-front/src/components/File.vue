@@ -28,7 +28,7 @@
             @contextmenu="onFileMenu($event, item, deleteFolder, compress, decompress, moveFile, downloadFile)"
             @dblclick="enterFolder(item)"
           >
-            <img v-if="item.isCompressed" src="@/assets/images/zip.png" class="image">
+            <img v-if="item.isCompressed" src="@/assets/images/zip.jpeg" class="image">
             <img v-else-if="item.type === 1" src="@/assets/images/folder.png" class="image">
             <img v-else-if="item.type == 2" src="@/assets/images/file.png" class="image">
             <img v-else src="@/assets/images/img.png" class="image">
