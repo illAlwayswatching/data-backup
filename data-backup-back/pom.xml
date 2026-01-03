@@ -15,6 +15,7 @@
     <description>data-backup-back</description>
     <properties>
         <java.version>17</java.version>
+        <spring-boot.version>3.1.7</spring-boot.version>
     </properties>
     <dependencies>
         <!-- web启动器 -->
@@ -107,23 +108,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.1.7</version>
+                <version>${spring-boot.version}</version>
                 <configuration>
+                    <mainClass>org.</mainClass> <!-- 主类（启动类） -->
                     <image>
                         <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
-                    <annotationProcessorPaths>
-                        <!-- <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.34</version>
-                        </path> -->
-                    </annotationProcessorPaths>
+                    <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal> <!-- 执行 repackage 目标 -->
+                    </goals>
                     <excludes>
-                        <exclude>
+                        <!-- <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                        </exclude>
+                        </exclude> -->
                     </excludes>
                 </configuration>
             </plugin>

@@ -1,0 +1,373 @@
+void RankViewUI::_createRebolt(){
+    CCLOG("RRRRr1.0: 开始创建Rebolt界面");
+    _rankViewNode = CompoRebolt::safeLoadWithSubNotify<Layer*>("排行榜_合集页.redream");
+    this->addChild(_rankViewNode);
+    
+    // 注册通知
+    CompoRebolt::GetOrCreateFrom(_rankViewNode)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+        CCLOG("RRRRr1.1: 收到通知，notify=%s, param=%s", notify.c_str(), param.c_str());
+        if (notify == "点击Players按钮") {
+            CCLOG("RRRRr1.2: 处理点击Players按钮");
+            updatePlayersWorldList(false);
+            updatePlayersRegionList(false);
+        }
+        else if (notify == "点击Teams按钮") {
+            CCLOG("RRRRr1.3: 处理点击Teams按钮");
+            updateTeamWorldList(false);
+            updateTeamRegionList(false);
+        }
+        else if (notify == "设置程序节点") {
+            CCLOG("RRRRr1.4: 设置程序节点，param=%s", param.c_str());
+            if(param == "列表区域顶部定位节点"){
+                _topNode = node;
+                CCLOG("RRRRr1.5: 设置_topNode成功");
+            }
+            if(param == "列表区域顶部裁切节点"){
+                _topEdgeNode = node;
+                CCLOG("RRRRr1.6: 设置_topEdgeNode成功");
+            }
+            if(param == "列表区域底部定位点"){
+                _downNode = GuildSystemManager::getInstance()->getGameDownViewNode();
+                _downEdgeNode = GuildSystemManager::getInstance()->getGameDownEdgeViewNode();
+                CCLOG("RRRRr1.7: 设置_downNode和_downEdgeNode成功");
+            }
+            if(param == "玩家排行界面"){
+                CCLOG("RRRRr1.8: 设置玩家排行界面");
+                _rankPlayerListView = node;
+                
+                Node* playerRegionBtn = nullptr; ///排行切换按钮
+                
+                // 注册通知
+                CompoRebolt::GetOrCreateFrom(_rankPlayerListView)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                    CCLOG("RRRRr1.9: 玩家排行界面收到通知，notify=%s, param=%s", notify.c_str(), param.c_str());
+                    if (notify == "点击全球按钮") {
+                        CCLOG("RRRRr1.10: 处理点击全球按钮");
+                        updatePlayersWorldList(false);
+                    }
+                    else if (notify == "点击本地按钮") {
+                        CCLOG("RRRRr1.11: 处理点击本地按钮");
+                        updatePlayersRegionList(false);
+                    }
+                    else if (notify == "设置程序节点") {
+                        CCLOG("RRRRr1.12: 玩家排行界面设置程序节点，param=%s", param.c_str());
+                        if(param == "排行榜_区域排行按钮"){
+                            playerRegionBtn = node;
+                            CCLOG("RRRRr1.13: 设置playerRegionBtn成功");
+                        }
+                        if(param == "全球列表区域"){
+                            CCLOG("RRRRr1.14: 设置全球列表区域");
+                            _playerWorldListNode = node;
+                            
+                            {
+                                Node* node = createMyInfoUIWorld(_playerWorldListNode);
+                                _playerWorldListNode->addChild(node,5,"机主条目");
+                                if(!RankSystem::getInstance()->isUserIn1000World()){
+                                    node->setVisible(false);
+                                    CCLOG("RRRRr1.15: 用户不在世界前1000，隐藏机主条目");
+                                }
+                                else {
+                                    CCLOG("RRRRr1.16: 用户在世界前1000，显示机主条目");
+                                }
+                            }
+                            _createPlayersWorldList();
+                        }
+                        if(param == "本地列表区域"){
+                            CCLOG("RRRRr1.17: 设置本地列表区域");
+                            _playerRegionListNode = node;
+                            
+                            {
+                                Node* node = createMyInfoUIRegion(_playerRegionListNode);
+                                _playerRegionListNode->addChild(node,5,"机主条目");
+                                if(!RankSystem::getInstance()->isUserIn1000Region()){
+                                    node->setVisible(false);
+                                    CCLOG("RRRRr1.18: 用户不在本地前1000，隐藏机主条目");
+                                }
+                                else {
+                                    CCLOG("RRRRr1.19: 用户在本地前1000，显示机主条目");
+                                }
+                            }
+                            _createPlayersRegionList();
+                        }
+                        if(param == "玩家全球_Top按钮"){
+                            CCLOG("RRRRr1.20: 设置玩家全球Top按钮");
+                            _playerWorld_topBtn = node;
+                            CompoRebolt::GetOrCreateFrom(_playerWorld_topBtn)->registerOnNotify([this](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Top按钮") {
+                                    CCLOG("RRRRr1.21: 点击玩家全球Top按钮，滚动到顶部");
+                                    CompoTable::GetOrCreateFrom(_playerWorldListNode)->scrollToCellIndex(0, 0.5, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_playerWorld_topBtn)->runFunc("初始化变量");
+                        }
+                        if(param == "玩家全球_Bottom按钮"){
+                            CCLOG("RRRRr1.22: 设置玩家全球Bottom按钮");
+                            _playerWorld_bottomBtn = node;
+                            
+                            float deltaY = (1136.f * 1.69-Director::getInstance()->getWinSize().height);
+                            _playerWorld_bottomBtn->setPositionY(_playerWorld_bottomBtn->getPositionY()+deltaY);
+                            
+                            CompoRebolt::GetOrCreateFrom(_playerWorld_bottomBtn)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Bottom按钮") {
+                                    CCLOG("RRRRr1.23: 点击玩家全球Bottom按钮，滚动到底部");
+                                    CompoTable::GetOrCreateFrom(_playerWorldListNode)->scrollToCellIndex(CompoTable::GetOrCreateFrom(_playerWorldListNode)->getCellCount(), 1, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_playerWorld_bottomBtn)->runFunc("初始化变量");
+                        }
+                        if(param == "玩家本地_Top按钮"){
+                            CCLOG("RRRRr1.24: 设置玩家本地Top按钮");
+                            _playerRegion_topBtn = node;
+                            
+                            CompoRebolt::GetOrCreateFrom(_playerRegion_topBtn)->registerOnNotify([this](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Top按钮") {
+                                    CCLOG("RRRRr1.25: 点击玩家本地Top按钮，滚动到顶部");
+                                    CompoTable::GetOrCreateFrom(_playerRegionListNode)->scrollToCellIndex(0, 0.5, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_playerRegion_topBtn)->runFunc("初始化变量");
+                        }
+                        if(param == "玩家本地_Bottom按钮"){
+                            CCLOG("RRRRr1.26: 设置玩家本地Bottom按钮");
+                            _playerRegion_bottomBtn = node;
+                            
+                            float deltaY = (1136.f * 1.69-Director::getInstance()->getWinSize().height);
+                            _playerRegion_bottomBtn->setPositionY(_playerRegion_bottomBtn->getPositionY()+deltaY);
+                            
+                            CompoRebolt::GetOrCreateFrom(_playerRegion_bottomBtn)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Bottom按钮") {
+                                    CCLOG("RRRRr1.27: 点击玩家本地Bottom按钮，滚动到底部");
+                                    CompoTable::GetOrCreateFrom(_playerRegionListNode)->scrollToCellIndex(CompoTable::GetOrCreateFrom(_playerRegionListNode)->getCellCount(), 1, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_playerRegion_bottomBtn)->runFunc("初始化变量");
+                        }
+                    }
+                });
+                
+                CCLOG("RRRRr1.28: 运行玩家排行界面设置程序节点");
+                CompoRebolt::GetOrCreateFrom(_rankPlayerListView)->runFunc("设置程序节点");
+                CompoRebolt::GetOrCreateFrom(_rankPlayerListView)->setCoderVar("P-当前页面", "全球页面"); ///全球/本地
+                auto text = LocalizationMgr::getInstance()->getString("Key124", "公会多语言_基础.plist");
+                CompoRebolt::GetOrCreateFrom(_rankPlayerListView)->setCoderVar("P-世界名称", text); ///固定
+                std::string country = guild::DataManager::getInstance()->getSelfData()->country_id;
+                std::string text_coutry = country;
+                if(country == ""){
+                    text_coutry = "Local";
+                    CCLOG("RRRRr1.29: country为空，使用Local作为默认值");
+                }
+                if(countryMap.find(country) != countryMap.end()){
+                    CCLOG("RRRRr1.30: 找到country映射，country=%s", country.c_str());
+                    if(countryMap.at(country) == "China"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key125", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "South Korea"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key126", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Japan"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key127", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "France"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key128", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Italy"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key129", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Russia"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key130", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Portugal"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key131", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "United Kingdom"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key132", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Spain"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key133", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Germany"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key134", "公会多语言_基础.plist");
+                    }
+                }
+                else {
+                    CCLOG("RRRRr1.31: 未找到country映射，使用原始值");
+                }
+                CompoRebolt::GetOrCreateFrom(_rankPlayerListView)->setCoderVar("P-本地名称", text_coutry); ///一堆地区
+                CCLOG("RRRRr1.32: 运行玩家排行界面展示页面");
+                CompoRebolt::GetOrCreateFrom(_rankPlayerListView)->runFunc("展示页面");
+                
+            }
+            if(param == "公会排行界面"){
+                CCLOG("RRRRr1.33: 设置公会排行界面");
+                _rankTeamListView = node;
+                
+                Node* teamRegionBtn = nullptr;
+                
+                // 注册通知
+                CompoRebolt::GetOrCreateFrom(_rankTeamListView)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                    CCLOG("RRRRr1.34: 公会排行界面收到通知，notify=%s, param=%s", notify.c_str(), param.c_str());
+                    if (notify == "点击全球按钮") {
+                        CCLOG("RRRRr1.35: 处理点击全球按钮");
+                        updateTeamWorldList(false);
+                    }
+                    else if (notify == "点击本地按钮") {
+                        CCLOG("RRRRr1.36: 处理点击本地按钮");
+                        updateTeamRegionList(false);
+                    }
+                    else if (notify == "设置程序节点") {
+                        CCLOG("RRRRr1.37: 公会排行界面设置程序节点，param=%s", param.c_str());
+                        if(param == "排行榜_区域排行按钮"){
+                            teamRegionBtn = node;
+                            CCLOG("RRRRr1.38: 设置teamRegionBtn成功");
+                        }
+                        if(param == "全球列表区域"){
+                            CCLOG("RRRRr1.39: 设置全球列表区域");
+                            _teamWorldListNode = node;
+                            
+                            {
+                                Node* node = createMyTeamUIWorld(_teamWorldListNode);
+                                _teamWorldListNode->addChild(node,5,"机主条目");
+                                if(!RankSystem::getInstance()->isTeamIn1000World()){
+                                    node->setVisible(false);
+                                    CCLOG("RRRRr1.40: 公会不在世界前1000，隐藏机主条目");
+                                }
+                                else {
+                                    CCLOG("RRRRr1.41: 公会在世界前1000，显示机主条目");
+                                }
+                            }
+                            _createTeamsWorldList();
+                        }
+                        if(param == "本地列表区域"){
+                            CCLOG("RRRRr1.42: 设置本地列表区域");
+                            _teamRegionListNode = node;
+                            
+                            {
+                                Node* node = createMyTeamUIRegion(_teamRegionListNode);
+                                _teamRegionListNode->addChild(node,5,"机主条目");
+                                if(!RankSystem::getInstance()->isTeamIn1000Region()){
+                                    node->setVisible(false);
+                                    CCLOG("RRRRr1.43: 公会不在本地前1000，隐藏机主条目");
+                                }
+                                else {
+                                    CCLOG("RRRRr1.44: 公会在本地前1000，显示机主条目");
+                                }
+                            }
+                            _createTeamsRegionList();
+                        }
+                        if(param == "公会全球_Top按钮"){
+                            CCLOG("RRRRr1.45: 设置公会全球Top按钮");
+                            _teamWorld_topBtn = node;
+                            
+                            CompoRebolt::GetOrCreateFrom(_teamWorld_topBtn)->registerOnNotify([this](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Top按钮") {
+                                    CCLOG("RRRRr1.46: 点击公会全球Top按钮，滚动到顶部");
+                                    CompoTable::GetOrCreateFrom(_teamWorldListNode)->scrollToCellIndex(0, 0.5, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_teamWorld_topBtn)->runFunc("初始化变量");
+                        }
+                        if(param == "公会全球_Bottom按钮"){
+                            CCLOG("RRRRr1.47: 设置公会全球Bottom按钮");
+                            _teamWorld_bottomBtn = node;
+                            
+                            float deltaY = (1136.f * 1.69-Director::getInstance()->getWinSize().height);
+                            _teamWorld_bottomBtn->setPositionY(_teamWorld_bottomBtn->getPositionY()+deltaY);
+                            
+                            CompoRebolt::GetOrCreateFrom(_teamWorld_bottomBtn)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Bottom按钮") {
+                                    CCLOG("RRRRr1.48: 点击公会全球Bottom按钮，滚动到底部");
+                                    CompoTable::GetOrCreateFrom(_teamWorldListNode)->scrollToCellIndex(CompoTable::GetOrCreateFrom(_teamWorldListNode)->getCellCount(), 1, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_teamWorld_bottomBtn)->runFunc("初始化变量");
+                        }
+                        if(param == "公会本地_Top按钮"){
+                            CCLOG("RRRRr1.49: 设置公会本地Top按钮");
+                            _teamRegion_topBtn = node;
+                            
+                            CompoRebolt::GetOrCreateFrom(_teamRegion_topBtn)->registerOnNotify([this](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Top按钮") {
+                                    CCLOG("RRRRr1.50: 点击公会本地Top按钮，滚动到顶部");
+                                    CompoTable::GetOrCreateFrom(_teamRegionListNode)->scrollToCellIndex(0, 0.5, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_teamRegion_topBtn)->runFunc("初始化变量");
+                        }
+                        if(param == "公会本地_Bottom按钮"){
+                            CCLOG("RRRRr1.51: 设置公会本地Bottom按钮");
+                            _teamRegion_bottomBtn = node;
+                            
+                            float deltaY = (1136.f * 1.69-Director::getInstance()->getWinSize().height);
+                            _teamRegion_bottomBtn->setPositionY(_teamRegion_bottomBtn->getPositionY()+deltaY);
+                            
+                            CompoRebolt::GetOrCreateFrom(_teamRegion_bottomBtn)->registerOnNotify([&](ReboltRedManager *, NotifyDevelopmentWaiter *, string notify, string param, bool, Node * node){
+                                if (notify == "点击Bottom按钮") {
+                                    CCLOG("RRRRr1.52: 点击公会本地Bottom按钮，滚动到底部");
+                                    CompoTable::GetOrCreateFrom(_teamRegionListNode)->scrollToCellIndex(CompoTable::GetOrCreateFrom(_teamRegionListNode)->getCellCount(), 1, false, true);
+                                }
+                            });
+                            CompoRebolt::GetOrCreateFrom(_teamRegion_bottomBtn)->runFunc("初始化变量");
+                        }
+                        
+                    }
+                });
+                
+                CCLOG("RRRRr1.53: 运行公会排行界面设置程序节点");
+                CompoRebolt::GetOrCreateFrom(_rankTeamListView)->runFunc("设置程序节点");
+                CompoRebolt::GetOrCreateFrom(_rankTeamListView)->setCoderVar("P-当前页面", "全球页面"); ///全球/本地
+                auto text = LocalizationMgr::getInstance()->getString("Key124", "公会多语言_基础.plist");
+                CompoRebolt::GetOrCreateFrom(_rankTeamListView)->setCoderVar("P-全球名称", text); ///固定
+                std::string country = guild::DataManager::getInstance()->getSelfData()->country_id;
+                std::string text_coutry = country;
+                if(country == ""){
+                    text_coutry = "Local";
+                    CCLOG("RRRRr1.54: country为空，使用Local作为默认值");
+                }
+                if(countryMap.find(country) != countryMap.end()){
+                    CCLOG("RRRRr1.55: 找到country映射，country=%s", country.c_str());
+                    if(countryMap.at(country) == "China"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key125", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "South Korea"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key126", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Japan"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key127", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "France"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key128", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Italy"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key129", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Russia"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key130", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Portugal"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key131", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "United Kingdom"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key132", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Spain"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key133", "公会多语言_基础.plist");
+                    }
+                    else if(countryMap.at(country) == "Germany"){
+                        text_coutry = LocalizationMgr::getInstance()->getString("Key134", "公会多语言_基础.plist");
+                    }
+                }
+                else {
+                    CCLOG("RRRRr1.56: 未找到country映射，使用原始值");
+                }
+                CompoRebolt::GetOrCreateFrom(_rankTeamListView)->setCoderVar("P-本地名称", text_coutry); ///一堆地区
+                CCLOG("RRRRr1.57: 运行公会排行界面展示页面");
+                CompoRebolt::GetOrCreateFrom(_rankTeamListView)->runFunc("展示页面");
+            }
+        }
+    });
+    CCLOG("RRRRr1.58: 运行主界面设置程序节点");
+    CompoRebolt::GetOrCreateFrom(_rankViewNode)->runFunc("设置程序节点");
+    CompoRebolt::GetOrCreateFrom(_rankViewNode)->setCoderVar("P-当前页面", "Players页面");
+    CCLOG("RRRRr1.59: 运行主界面展示页面");
+    CompoRebolt::GetOrCreateFrom(_rankViewNode)->runFunc("展示页面");
+    CCLOG("RRRRr1.60: _createRebolt完成");
+}
