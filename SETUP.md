@@ -1,4 +1,4 @@
-# Cursor Java 项目配置说明
+# Java 项目配置说明
 
 ## 已完成的配置
 
@@ -9,10 +9,11 @@
 
 ## 解决 "ConfigError: The project 'data-backup-back' is not a valid java project" 的步骤
 
-### 步骤 1: 重新加载 Cursor
+### 步骤 1: 重新加载 Vscode
+
 1. 按 `Cmd+Shift+P` (Mac) 或 `Ctrl+Shift+P` (Windows/Linux)
 2. 输入 "Reload Window" 并执行
-3. 或者直接重启 Cursor
+3. 或者直接重启 Vscode
 
 ### 步骤 2: 安装 Java 扩展
 1. 按 `Cmd+Shift+X` (Mac) 或 `Ctrl+Shift+X` (Windows/Linux) 打开扩展面板
@@ -22,7 +23,7 @@
    - **Spring Boot Extension Pack** (可选，但推荐)
 
 ### 步骤 3: 等待项目索引
-- Cursor 会自动检测 Maven 项目并开始索引
+- Vscode 会自动检测 Maven 项目并开始索引
 - 查看右下角的状态栏，等待 "Java Projects" 完成加载
 - 这可能需要几分钟时间
 
@@ -46,7 +47,7 @@ java -version
 
 ```
 data-backup/
-├── .vscode/              # Cursor/VS Code 配置
+├── .vscode/              # CCuCurCurs
 │   ├── settings.json     # Java 项目设置
 │   ├── launch.json      # 调试配置
 │   ├── tasks.json       # Maven 任务
@@ -78,7 +79,7 @@ A:
 A:
 1. 确保已安装 Lombok 扩展
 2. 在设置中启用 Lombok 支持
-3. 重启 Cursor
+3. 重启 Vscode
 
 ## 调试配置
 
