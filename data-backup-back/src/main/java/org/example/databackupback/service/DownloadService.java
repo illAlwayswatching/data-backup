@@ -1,5 +1,6 @@
 package org.example.databackupback.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.databackupback.common.Response;
 
@@ -9,8 +10,8 @@ import org.example.databackupback.common.Response;
  * @Date: 2025/9/11 16:46
  **/
 public interface DownloadService {
-    Response downloadFile(String username, String target, HttpServletResponse response);
+    Response downloadFile(String username, String target, HttpServletRequest request, HttpServletResponse response);
 
-    Response downloadFileDecrypt(String username, String target, String keyword, HttpServletResponse response);
+    Response downloadFileDecrypt(String username, String target, String keyword, HttpServletRequest request, HttpServletResponse response);
 
 }

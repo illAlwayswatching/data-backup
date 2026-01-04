@@ -1,6 +1,7 @@
 package org.example.databackupback.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.databackupback.common.Response;
@@ -35,19 +36,30 @@ public class DownloadServiceImpl implements DownloadService {
     @Autowired
     FileUtil fileUtil;
 
-    public void setResponse(HttpServletResponse response, File file) throws UnsupportedEncodingException {
+    public void setResponse(HttpServletRequest request, HttpServletResponse response, File file) throws UnsupportedEncodingException {
         response.reset();
-//        response.setContentType("application/octet-stream");
+        
+        // 设置 CORS 响应头（必须在 reset() 之后设置）
+        String origin = request.getHeader("Origin");
+        if (origin != null && !origin.isEmpty()) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+        } else {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+        }
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+        
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType("application/force-download");      // 设置强制下载不打开
 //        response.setContentLength((int) file.length());             // 文件长度
         String fileName = URLEncoder.encode(file.getName(), StandardCharsets.UTF_8.name());
         response.addHeader("Content-disposition", "attachment;filename=" + fileName + ";filename*=UTF-8" + fileName);    // 文件名
-        response.setHeader("Access-Control-Expose-Headers","Content-Disposition");
     }
 
     @Override
-    public Response downloadFile(String username, String source, HttpServletResponse response) {
+    public Response downloadFile(String username, String source, HttpServletRequest request, HttpServletResponse response) {
         String user_path = "/" + username + source;
         String source_path = Response.USER_DATA + user_path;
 
@@ -64,7 +76,7 @@ public class DownloadServiceImpl implements DownloadService {
         }
 
         try {
-            setResponse(response, file);
+            setResponse(request, response, file);
         } catch (UnsupportedEncodingException e) {
             //log.error("设置返回数据失败");
             return Response.error("设置返回数据失败");
@@ -90,7 +102,7 @@ public class DownloadServiceImpl implements DownloadService {
     }
 
     @Override
-    public Response downloadFileDecrypt(String username, String source, String keyword, HttpServletResponse response) {
+    public Response downloadFileDecrypt(String username, String source, String keyword, HttpServletRequest request, HttpServletResponse response) {
         String user_path = "/" + username + source;
         String source_path = Response.USER_DATA + user_path;
 
@@ -119,7 +131,7 @@ public class DownloadServiceImpl implements DownloadService {
         }
 
         try {
-            setResponse(response, file);
+            setResponse(request, response, file);
         } catch (UnsupportedEncodingException e) {
             //log.error("设置返回数据失败");
             return Response.error("设置返回数据失败");

@@ -89,13 +89,19 @@
 
   const counterStore = useCounterStore()
 
-  let path = '/'
+  let path = ref('/')
   let pathList = []
   let searchKey = ref('')
   let centerDialogVisible = ref(false)
   let isEncrypted = ref(false)
   
-  let loadParams = ref({username: counterStore.account.replace(/\"/g, ""), target: path})
+  let loadParams = ref({username: counterStore.account.replace(/\"/g, ""), target: path.value})
+  
+  // 监听 path 变化，更新 loadParams
+  import { watch } from 'vue'
+  watch(path, (newPath) => {
+    loadParams.value.target = newPath
+  })
   let fileInfo = ref([])
   let tempFileInfo = ref([])
   let algorithm = ref('AES')
@@ -194,12 +200,29 @@
 }
 
 const buildFoler = async () => {
+    // 确保路径格式正确：根目录为 '/'，其他目录以 '/' 结尾
+    let currentPath = path.value || '/'
+    // 确保路径以 '/' 开头
+    if (!currentPath.startsWith('/')) {
+      currentPath = '/' + currentPath
+    }
+    // 如果不是根目录，确保以 '/' 结尾
+    if (currentPath !== '/' && !currentPath.endsWith('/')) {
+      currentPath = currentPath + '/'
+    }
+    console.log('当前路径:', currentPath)
+    
     ElMessageBox.prompt('请输入文件夹名', '新建文件夹', {
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
     })
     .then(async ({ value }) => {
-      const res = (await api.buildFoler(value, counterStore.account.replace(/\"/g, ""), path))
+      if (!value || value.trim() === '') {
+        ElMessage.error('文件夹名不能为空')
+        return
+      }
+      
+      const res = (await api.buildFoler(value.trim(), counterStore.account.replace(/\"/g, ""), currentPath))
 
       if (res.type === 'success') {
         ElMessage({
@@ -236,7 +259,27 @@ const downloadFile = (source, flag) => {
           inputErrorMessage: 'Invalid Keyword',
         })
         .then(({ value }) => {
-          download(true, source, value)
+          // 询问用户选择下载方式
+          ElMessageBox.confirm(
+            '请选择下载方式',
+            '下载文件',
+            {
+              confirmButtonText: '指定位置',
+              cancelButtonText: '默认下载',
+              distinguishCancelAndClose: true,
+              type: 'info',
+            }
+          )
+          .then(() => {
+            // 用户选择指定位置下载
+            downloadToLocation(true, source, value)
+          })
+          .catch((action) => {
+            if (action === 'cancel') {
+              // 用户选择默认下载
+              download(true, source, value)
+            }
+          })
         })
         .catch(() => {
           ElMessage({
@@ -249,7 +292,27 @@ const downloadFile = (source, flag) => {
         download(false, source, '')
       })
     } else {
-      download(false, source, '')
+      // 询问用户选择下载方式
+      ElMessageBox.confirm(
+        '请选择下载方式',
+        '下载文件',
+        {
+          confirmButtonText: '指定位置',
+          cancelButtonText: '默认下载',
+          distinguishCancelAndClose: true,
+          type: 'info',
+        }
+      )
+      .then(() => {
+        // 用户选择指定位置下载
+        downloadToLocation(false, source, '')
+      })
+      .catch((action) => {
+        if (action === 'cancel') {
+          // 用户选择默认下载
+          download(false, source, '')
+        }
+      })
     }
   }
 
@@ -259,7 +322,7 @@ const downloadFile = (source, flag) => {
       cancelButtonText: 'Cancel',
     })
     .then(async ({ value }) => {
-      const res = (await api.compress(counterStore.account.replace(/\"/g, ""), path, value, fileId))
+      const res = (await api.compress(counterStore.account.replace(/\"/g, ""), path.value, value, fileId))
 
       if (res.type === 'success') {
         ElMessage({
@@ -335,7 +398,7 @@ const downloadFile = (source, flag) => {
   getInfo()
 
   async function decompress(fileId) {
-    const res = (await api.decompress(counterStore.account.replace(/\"/g, ""), path, fileId))
+    const res = (await api.decompress(counterStore.account.replace(/\"/g, ""), path.value, fileId))
 
     if (res.type === 'success') {
       ElMessage({
@@ -352,7 +415,7 @@ const downloadFile = (source, flag) => {
     fileInfo.value = []
     tempFileInfo.value = []
 
-    const result = (await api.getInfo(counterStore.account.replace(/\"/g, ""), path))
+    const result = (await api.getInfo(counterStore.account.replace(/\"/g, ""), path.value))
     fileInfo.value = result.data
     tempFileInfo.value = result.data
   }
@@ -408,18 +471,17 @@ const downloadFile = (source, flag) => {
 
   function enterFolder(item) {
     if (item.type === 1) {
-      pathList.push(path)
-      path = item.path + '/'
-      console.log(pathList)
+      pathList.push(path.value)
+      path.value = item.path + '/'
+      console.log('进入文件夹，当前路径:', path.value)
       getInfo()
     }
   }
 
   function goBack() {
-    if (path != '/') {
-      path = pathList.pop()
-      console.log(pathList)
-      console.log(path)
+    if (path.value != '/') {
+      path.value = pathList.pop()
+      console.log('返回上一级，当前路径:', path.value)
       getInfo()
     }
   }
@@ -434,6 +496,180 @@ const downloadFile = (source, flag) => {
     //在新窗口打开
     a.target = '_blank'
     a.click(); 
+  }
+
+  // 下载到指定位置
+  async function downloadToLocation(flag, source, keyword) {
+    // 检查浏览器是否支持 File System Access API
+    if (!window.showSaveFilePicker) {
+      ElMessage.warning('您的浏览器不支持指定下载位置功能，将使用默认下载方式')
+      download(flag, source, keyword)
+      return
+    }
+
+    try {
+      // 从 source 路径中提取文件名
+      // source 格式可能是: /folder/file.txt 或 /file.txt
+      let fileName = 'download'
+      if (source) {
+        const pathParts = source.split('/').filter(part => part.length > 0)
+        if (pathParts.length > 0) {
+          fileName = pathParts[pathParts.length - 1]
+        }
+      }
+      
+      // 构建下载 URL
+      let downloadUrl
+      if (flag) {
+        downloadUrl = api.downloadEncryptedFile(counterStore.account.replace(/\"/g, ""), source, keyword)
+      } else {
+        downloadUrl = api.downloadFile(counterStore.account.replace(/\"/g, ""), source)
+      }
+      
+      // 确保 URL 格式正确（api.js 中已经构建了完整 URL）
+      console.log('下载 URL:', downloadUrl)
+
+      // 根据文件扩展名获取 MIME 类型
+      const getMimeType = (filename) => {
+        const ext = filename.split('.').pop()?.toLowerCase()
+        const mimeTypes = {
+          'txt': 'text/plain',
+          'pdf': 'application/pdf',
+          'doc': 'application/msword',
+          'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'xls': 'application/vnd.ms-excel',
+          'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'jpg': 'image/jpeg',
+          'jpeg': 'image/jpeg',
+          'png': 'image/png',
+          'gif': 'image/gif',
+          'zip': 'application/zip',
+          'rar': 'application/x-rar-compressed',
+          'mp4': 'video/mp4',
+          'mp3': 'audio/mpeg',
+          'json': 'application/json',
+          'xml': 'application/xml',
+          'html': 'text/html',
+          'css': 'text/css',
+          'js': 'application/javascript',
+          'cpp': 'text/x-c++src',
+          'java': 'text/x-java-source',
+          'py': 'text/x-python'
+        }
+        return mimeTypes[ext] || null
+      }
+
+      // 关键改动：先获取文件数据，再打开文件选择器
+      // 这样可以避免在文件选择器打开后浏览器的安全上下文变化导致的问题
+      ElMessage.info('正在下载文件...')
+      console.log('开始下载，URL:', downloadUrl)
+      
+      // 先获取文件数据（在用户交互上下文中）
+      let blob = null
+      try {
+        // 尝试使用 fetch
+        const response = await fetch(downloadUrl, {
+          method: 'GET',
+          credentials: 'include', // 包含 cookies
+          mode: 'cors'
+        })
+        
+        console.log('响应状态:', response.status, response.statusText)
+        console.log('响应类型:', response.type)
+        
+        if (!response.ok) {
+          const errorText = await response.text().catch(() => '')
+          throw new Error(`下载失败: ${response.status} ${response.statusText}${errorText ? ' - ' + errorText.substring(0, 100) : ''}`)
+        }
+
+        blob = await response.blob()
+        console.log('Fetch 成功，Blob 大小:', blob.size, 'bytes', '类型:', blob.type)
+      } catch (fetchError) {
+        console.warn('Fetch 失败，尝试使用 XMLHttpRequest:', fetchError)
+        
+        // 如果 fetch 失败，尝试使用 XMLHttpRequest
+        blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest()
+          xhr.open('GET', downloadUrl, true)
+          xhr.responseType = 'blob'
+          xhr.withCredentials = true
+          
+          xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              const blob = xhr.response
+              if (!blob || blob.size === 0) {
+                reject(new Error('下载失败: 响应数据为空'))
+              } else {
+                resolve(blob)
+              }
+            } else {
+              reject(new Error(`下载失败: ${xhr.status} ${xhr.statusText}`))
+            }
+          }
+          
+          xhr.onerror = function() {
+            reject(new Error('网络错误: 无法连接到服务器'))
+          }
+          
+          xhr.ontimeout = function() {
+            reject(new Error('下载超时'))
+          }
+          
+          xhr.timeout = 60000
+          xhr.send()
+        })
+        
+        console.log('XMLHttpRequest 成功，Blob 大小:', blob.size, 'bytes')
+      }
+      
+      if (!blob || blob.size === 0) {
+        throw new Error('下载失败: 响应数据为空')
+      }
+
+      // 数据获取成功后再打开文件选择器
+      ElMessage.info('请选择保存位置...')
+      
+      // 构建文件选择器配置
+      const pickerOptions = {
+        suggestedName: fileName
+      }
+
+      // 如果文件名有扩展名且能找到对应的 MIME 类型，则设置 types
+      // 否则不设置 types，让浏览器允许保存任何类型的文件
+      if (fileName.includes('.')) {
+        const mimeType = getMimeType(fileName)
+        if (mimeType) {
+          const ext = '.' + fileName.split('.').pop()
+          pickerOptions.types = [{
+            description: '文件',
+            accept: {
+              [mimeType]: [ext]
+            }
+          }]
+        }
+      }
+
+      // 显示保存文件对话框（必须在用户交互上下文中）
+      const fileHandle = await window.showSaveFilePicker(pickerOptions)
+
+      // 写入数据到文件
+      const writable = await fileHandle.createWritable()
+      await writable.write(blob)
+      await writable.close()
+      
+      ElMessage.success('文件下载成功！')
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        // 用户取消了文件选择，不显示错误消息
+        return
+      } else {
+        console.error('下载失败:', error)
+        const errorMsg = error.response?.data?.message || error.message || '未知错误'
+        ElMessage.error('下载失败: ' + errorMsg)
+        // 如果指定位置下载失败，回退到默认下载
+        download(flag, source, keyword)
+      }
+    }
   }
 </script>
 
@@ -715,3 +951,4 @@ const downloadFile = (source, flag) => {
     font-weight: 500;
   }
 </style>
+
