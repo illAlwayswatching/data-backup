@@ -9,6 +9,7 @@ import org.example.databackupback.service.UploadService;
 import org.example.databackupback.utils.EncryptUtil;
 import org.example.databackupback.utils.EncryptLTY;
 import org.example.databackupback.utils.EncryptWZA;
+import org.example.databackupback.utils.MetadataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,13 +49,30 @@ public class UploadServiceImpl implements UploadService {
         File dest = new File(dest_path);
         try {
             file.transferTo(dest);
+            
+            // 获取并保存元数据
+            Path destPath = dest.toPath();
+            MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(destPath);
+            
+            // 添加数据库备份文件的表项，包含元数据
+            BackupFileInfo fileInfo = new BackupFileInfo();
+            fileInfo.setPath(user_path);
+            fileInfo.setKeyword(null);
+            fileInfo.setAlgorithm(null);
+            fileInfo.setOwner(metadata.getOwner());
+            fileInfo.setFileGroup(metadata.getFileGroup());
+            fileInfo.setPermissions(metadata.getPermissions());
+            fileInfo.setPermissionMode(metadata.getPermissionMode());
+            fileInfo.setIsSymbolicLink(metadata.getIsSymbolicLink());
+            fileInfo.setLinkTarget(metadata.getLinkTarget());
+            
+            backupFileInfoMapper.insert(fileInfo);
+            
         } catch (IOException e) {
             //log.error("文件备份失败");
+            e.printStackTrace();
             return Response.error("文件备份失败");
         }
-
-        // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, null,null));
 
         return Response.success("备份成功");
     }
@@ -77,14 +95,29 @@ public class UploadServiceImpl implements UploadService {
         Path destPath = Paths.get(dest_path);
         try {
             EncryptUtil.encryptFile(file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            
+            // 获取并保存元数据
+            MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(destPath);
+            
+            // 添加数据库备份文件的表项，包含元数据
+            BackupFileInfo fileInfo = new BackupFileInfo();
+            fileInfo.setPath(user_path);
+            fileInfo.setKeyword(keyword);
+            fileInfo.setAlgorithm("AES");
+            fileInfo.setOwner(metadata.getOwner());
+            fileInfo.setFileGroup(metadata.getFileGroup());
+            fileInfo.setPermissions(metadata.getPermissions());
+            fileInfo.setPermissionMode(metadata.getPermissionMode());
+            fileInfo.setIsSymbolicLink(metadata.getIsSymbolicLink());
+            fileInfo.setLinkTarget(metadata.getLinkTarget());
+            
+            backupFileInfoMapper.insert(fileInfo);
+            
         } catch (Exception e) {
             //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
-
-        // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "AES"));
 
         return Response.success("加密备份成功");
     }
@@ -107,14 +140,29 @@ public class UploadServiceImpl implements UploadService {
         Path destPath = Paths.get(dest_path);
         try {
             EncryptWZA.encrypt("Serpent",file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            
+            // 获取并保存元数据
+            MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(destPath);
+            
+            // 添加数据库备份文件的表项，包含元数据
+            BackupFileInfo fileInfo = new BackupFileInfo();
+            fileInfo.setPath(user_path);
+            fileInfo.setKeyword(keyword);
+            fileInfo.setAlgorithm("Serpent");
+            fileInfo.setOwner(metadata.getOwner());
+            fileInfo.setFileGroup(metadata.getFileGroup());
+            fileInfo.setPermissions(metadata.getPermissions());
+            fileInfo.setPermissionMode(metadata.getPermissionMode());
+            fileInfo.setIsSymbolicLink(metadata.getIsSymbolicLink());
+            fileInfo.setLinkTarget(metadata.getLinkTarget());
+            
+            backupFileInfoMapper.insert(fileInfo);
+            
         } catch (Exception e) {
             //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
-
-        // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "Serpent"));
 
         return Response.success("加密备份成功");
     }
@@ -137,14 +185,29 @@ public class UploadServiceImpl implements UploadService {
         Path destPath = Paths.get(dest_path);
         try {
             EncryptLTY.chacha20Encrypt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            
+            // 获取并保存元数据
+            MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(destPath);
+            
+            // 添加数据库备份文件的表项，包含元数据
+            BackupFileInfo fileInfo = new BackupFileInfo();
+            fileInfo.setPath(user_path);
+            fileInfo.setKeyword(keyword);
+            fileInfo.setAlgorithm("Chacha20");
+            fileInfo.setOwner(metadata.getOwner());
+            fileInfo.setFileGroup(metadata.getFileGroup());
+            fileInfo.setPermissions(metadata.getPermissions());
+            fileInfo.setPermissionMode(metadata.getPermissionMode());
+            fileInfo.setIsSymbolicLink(metadata.getIsSymbolicLink());
+            fileInfo.setLinkTarget(metadata.getLinkTarget());
+            
+            backupFileInfoMapper.insert(fileInfo);
+            
         } catch (Exception e) {
             //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
-
-        // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword,"Chacha20"));   
 
         return Response.success("加密备份成功");
     }
@@ -167,14 +230,29 @@ public class UploadServiceImpl implements UploadService {
         Path destPath = Paths.get(dest_path);
         try {
             EncryptLTY.twoFishEncrypt(file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            
+            // 获取并保存元数据
+            MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(destPath);
+            
+            // 添加数据库备份文件的表项，包含元数据
+            BackupFileInfo fileInfo = new BackupFileInfo();
+            fileInfo.setPath(user_path);
+            fileInfo.setKeyword(keyword);
+            fileInfo.setAlgorithm("Twofish");
+            fileInfo.setOwner(metadata.getOwner());
+            fileInfo.setFileGroup(metadata.getFileGroup());
+            fileInfo.setPermissions(metadata.getPermissions());
+            fileInfo.setPermissionMode(metadata.getPermissionMode());
+            fileInfo.setIsSymbolicLink(metadata.getIsSymbolicLink());
+            fileInfo.setLinkTarget(metadata.getLinkTarget());
+            
+            backupFileInfoMapper.insert(fileInfo);
+            
         } catch (Exception e) {
             //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
-
-        // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "Twofish"));
 
         return Response.success("加密备份成功");
     }
@@ -197,14 +275,29 @@ public class UploadServiceImpl implements UploadService {
         Path destPath = Paths.get(dest_path);
         try {
             EncryptWZA.encrypt("Camellia",file.getInputStream(), Files.newOutputStream(destPath), keyword);
+            
+            // 获取并保存元数据
+            MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(destPath);
+            
+            // 添加数据库备份文件的表项，包含元数据
+            BackupFileInfo fileInfo = new BackupFileInfo();
+            fileInfo.setPath(user_path);
+            fileInfo.setKeyword(keyword);
+            fileInfo.setAlgorithm("Camellia");
+            fileInfo.setOwner(metadata.getOwner());
+            fileInfo.setFileGroup(metadata.getFileGroup());
+            fileInfo.setPermissions(metadata.getPermissions());
+            fileInfo.setPermissionMode(metadata.getPermissionMode());
+            fileInfo.setIsSymbolicLink(metadata.getIsSymbolicLink());
+            fileInfo.setLinkTarget(metadata.getLinkTarget());
+            
+            backupFileInfoMapper.insert(fileInfo);
+            
         } catch (Exception e) {
             //log.error("文件加密备份失败");
             e.printStackTrace();
             return Response.error("文件加密备份失败");
         }
-
-        // 添加数据库备份文件的表项
-        backupFileInfoMapper.insert(new BackupFileInfo(null, user_path, keyword, "Camellia"));
 
         return Response.success("加密备份成功");
     }

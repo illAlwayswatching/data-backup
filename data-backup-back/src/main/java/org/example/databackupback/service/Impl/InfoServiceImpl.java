@@ -7,6 +7,7 @@ import org.example.databackupback.entity.BackupFile;
 import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
 import org.example.databackupback.service.InfoService;
+import org.example.databackupback.utils.MetadataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,23 +72,61 @@ public class InfoServiceImpl implements InfoService {
                 backupFile.setModifyDate(new Date(fatr.lastModifiedTime().toMillis()));
                 // size
                 backupFile.setSize(fatr.size());
+                
+                // 获取元数据
+                try {
+                    MetadataUtil.FileMetadata metadata = MetadataUtil.getFileMetadata(itemPath);
+                    backupFile.setOwner(metadata.getOwner());
+                    backupFile.setGroup(metadata.getFileGroup());
+                    backupFile.setPermissions(metadata.getPermissions());
+                    backupFile.setPermissionMode(metadata.getPermissionMode());
+                    backupFile.setIsSymbolicLink(metadata.getIsSymbolicLink());
+                    backupFile.setIsRegularFile(metadata.getIsRegularFile());
+                    backupFile.setIsDirectory(metadata.getIsDirectory());
+                    backupFile.setLinkTarget(metadata.getLinkTarget());
+                } catch (IOException e) {
+                    // 如果获取元数据失败，设置默认值
+                    backupFile.setOwner("unknown");
+                    backupFile.setGroup("unknown");
+                    backupFile.setPermissions("rw-r--r--");
+                    backupFile.setPermissionMode(644);
+                    backupFile.setIsSymbolicLink(false);
+                    backupFile.setIsRegularFile(!item.isDirectory());
+                    backupFile.setIsDirectory(item.isDirectory());
+                    backupFile.setLinkTarget(null);
+                }
+                
                 // type: 1为目录，2为非图片的文件，3为图片文件
                 String filePath = item.getName();
-                String postfix = filePath.substring(filePath.lastIndexOf(".") + 1);
-                if (item.isDirectory()) backupFile.setType(1);
-                else {
+                if (item.isDirectory()) {
+                    backupFile.setType(1);
+                } else {
+                    String postfix = "";
+                    if (filePath.contains(".")) {
+                        postfix = filePath.substring(filePath.lastIndexOf(".") + 1);
+                    }
                     if (picPostfix.contains(postfix)) backupFile.setType(3);
                     else backupFile.setType(2);
                 }
 
                 // isEncrypted
-                backupFile.setIsEncrypted(info.getKeyword() != null && !info.getKeyword().isEmpty());
+                if (info != null) {
+                    backupFile.setIsEncrypted(info.getKeyword() != null && !info.getKeyword().isEmpty());
+                } else {
+                    backupFile.setIsEncrypted(false);
+                }
 
                 // isCompressed
-                backupFile.setIsCompressed(compressPostfix.contains(postfix));
+                String filePath2 = item.getName();
+                String postfix2 = "";
+                if (filePath2.contains(".")) {
+                    postfix2 = filePath2.substring(filePath2.lastIndexOf(".") + 1);
+                }
+                backupFile.setIsCompressed(compressPostfix.contains(postfix2));
 
             } catch (Exception e) {
-                return Response.error("获取失败");
+                e.printStackTrace();
+                return Response.error("获取失败: " + e.getMessage());
             }
 
             list.add(backupFile);
@@ -168,20 +207,45 @@ public class InfoServiceImpl implements InfoService {
             OutputStream os = Files.newOutputStream(finalPath)) {
             byte[] buffer = new byte[4096]; // 缓冲区大小
             int i;
-            while ((i = is.read(buffer)) != -1) { // 读取加密文件内容到缓冲区
-                os.write(buffer, 0, i); // 将解密后的数据写入解密文件
+            while ((i = is.read(buffer)) != -1) { // 读取文件内容到缓冲区
+                os.write(buffer, 0, i); // 将数据写入目标文件
                 os.flush();
             }
+            
+            // 恢复元数据
+            if (info.getOwner() != null || info.getPermissionMode() != null) {
+                MetadataUtil.FileMetadata metadata = new MetadataUtil.FileMetadata();
+                metadata.setOwner(info.getOwner());
+                metadata.setFileGroup(info.getFileGroup());
+                metadata.setPermissions(info.getPermissions());
+                metadata.setPermissionMode(info.getPermissionMode());
+                try {
+                    MetadataUtil.setFileMetadata(finalPath, metadata);
+                } catch (IOException e) {
+                    // 元数据设置失败不影响文件复制，记录日志即可
+                    System.err.println("恢复元数据失败: " + e.getMessage());
+                }
+            }
+            
         } catch (IOException e) {
             e.printStackTrace();
             //log.error("拷贝文件出错");
             return Response.error("拷贝文件出错");
         }
 
-        if (info.getKeyword() == null || info.getKeyword().isEmpty())
-            backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), null,null));
-        else
-            backupFileInfoMapper.insert(new BackupFileInfo(null, "/" + username + to + sourceFile.getName(), info.getKeyword(), info.getAlgorithm()));
+        // 保存新的文件信息到数据库，包含元数据
+        BackupFileInfo newInfo = new BackupFileInfo();
+        newInfo.setPath("/" + username + to + sourceFile.getName());
+        newInfo.setKeyword(info.getKeyword());
+        newInfo.setAlgorithm(info.getAlgorithm());
+        newInfo.setOwner(info.getOwner());
+        newInfo.setFileGroup(info.getFileGroup());
+        newInfo.setPermissions(info.getPermissions());
+        newInfo.setPermissionMode(info.getPermissionMode());
+        newInfo.setIsSymbolicLink(info.getIsSymbolicLink());
+        newInfo.setLinkTarget(info.getLinkTarget());
+        
+        backupFileInfoMapper.insert(newInfo);
 
         return Response.success("拷贝文件成功");
     }

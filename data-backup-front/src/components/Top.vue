@@ -18,7 +18,7 @@
           
           <template #dropdown>
             <el-dropdown-menu>
-              <a href="https://github.com/abel-chai/data-backup.git" target="_blank">
+              <a href="https://github.com/illAlwayswatching/data-backup.git" target="_blank">
                 <el-dropdown-item>项目仓库</el-dropdown-item>
               </a>
   
