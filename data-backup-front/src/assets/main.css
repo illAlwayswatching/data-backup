@@ -1,6 +1,42 @@
+/* 复古柔焦胶片风格 - 色彩变量定义 */
+:root {
+  /* 主色调 - 淡紫蓝色系 */
+  --lavender-blue: #B8B8E6;
+  --light-cobalt: #A8C5E8;
+  --soft-purple: #D4C5E8;
+  
+  /* 粉橙渐变云 */
+  --peach-pink: #FFD4C4;
+  --warm-orange: #FFB88C;
+  --cream-white: #FFF8F0;
+  
+  /* 草地色 */
+  --fresh-green: #B8E6B8;
+  --warm-brown: #E6D4B8;
+  
+  /* 文字色 - 深蓝色偏黑 */
+  --cream-text: #1a2332;
+  --soft-text: #1e3a5f;
+  --text-dark: #1a2332;
+  --text-shadow: rgba(26, 35, 50, 0.2);
+  
+  /* 背景渐变 */
+  --bg-gradient-start: #D4C5E8;
+  --bg-gradient-middle: #B8B8E6;
+  --bg-gradient-end: #A8C5E8;
+  
+  /* 卡片背景 - 马卡龙色 */
+  --card-bg: rgba(255, 248, 240, 0.85);
+  --card-shadow: rgba(184, 184, 230, 0.2);
+  
+  /* 复古纹理 */
+  --vintage-overlay: rgba(0, 0, 0, 0.02);
+}
+
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html,
@@ -14,22 +50,65 @@ body,
 
 body {
     font-family: 'PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
+    color: var(--text-dark);
+    /* 复古柔焦效果 */
+    background: linear-gradient(180deg, 
+        var(--bg-gradient-start) 0%, 
+        var(--bg-gradient-middle) 50%, 
+        var(--bg-gradient-end) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 复古胶片纹理效果 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, var(--vintage-overlay) 2px, var(--vintage-overlay) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, var(--vintage-overlay) 2px, var(--vintage-overlay) 4px);
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+}
+
+/* 柔光滤镜效果 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 212, 196, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(184, 230, 184, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 9998;
+    filter: blur(40px);
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
+    color: var(--text-dark);
 }
 
 .content-box {
     position: absolute;
     left: 0px;
     right: 0;
-    top: 70px;
+    top: 15px;
     bottom: 0;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
+    padding-top: 0;
     -webkit-transition: left .3s ease-in-out;
     transition: left .3s ease-in-out;
-    background: #f0f0f0;
+    background: transparent;
+    backdrop-filter: blur(10px);
 }
 
 .content {
@@ -38,6 +117,25 @@ a {
     padding: 10px;
     overflow-y: scroll;
     box-sizing: border-box;
+    position: relative;
+}
+
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: rgba(255, 248, 240, 0.1);
+    border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: rgba(184, 184, 230, 0.4);
+    border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: rgba(184, 184, 230, 0.6);
 }
 
 .content-collapse {
@@ -46,17 +144,37 @@ a {
 
 .container {
     padding: 30px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    background: var(--card-bg);
+    border: 1px solid rgba(184, 184, 230, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px var(--card-shadow);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 柔光高光效果 */
+.container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 248, 240, 0.1) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .crumbs {
     margin: 10px 0;
+    color: var(--text-dark);
+    text-shadow: none;
 }
 
 .el-table th {
-    background-color: #f5f7fa !important;
+    background-color: rgba(255, 248, 240, 0.6) !important;
+    color: var(--text-dark) !important;
+    border-bottom: 1px solid rgba(184, 184, 230, 0.3) !important;
 }
 
 .pagination {
@@ -68,6 +186,9 @@ a {
 .plugins-tips {
     padding: 20px 10px;
     margin-bottom: 20px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    border: 1px solid rgba(184, 184, 230, 0.3);
 }
 
 .el-button+.el-tooltip {
@@ -75,7 +196,7 @@ a {
 }
 
 .el-table tr:hover {
-    background: #f6faff;
+    background: rgba(255, 248, 240, 0.4) !important;
 }
 
 .mgb20 {
@@ -117,18 +238,23 @@ a {
     height: 40px;
     line-height: 40px;
     text-align: center;
-    color: #fff;
-    border-radius: 3px;
+    color: var(--cream-text);
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--lavender-blue), var(--light-cobalt));
+    border: none;
+    box-shadow: 0 4px 15px var(--card-shadow);
+    transition: all 0.3s ease;
 }
 
-.g-core-image-corp-container .info-aside {
-    height: 45px;
+.pure-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--card-shadow);
 }
 
 .el-upload--text {
-    background-color: #fff;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
+    background-color: var(--card-bg);
+    border: 2px dashed rgba(184, 184, 230, 0.5);
+    border-radius: 20px;
     box-sizing: border-box;
     width: 360px;
     height: 180px;
@@ -136,17 +262,27 @@ a {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.el-upload--text:hover {
+    border-color: rgba(184, 184, 230, 0.8);
+    background-color: rgba(255, 248, 240, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--card-shadow);
 }
 
 .el-upload--text .el-icon-upload {
     font-size: 67px;
-    color: #97a8be;
+    color: var(--lavender-blue);
     margin: 40px 0 16px;
     line-height: 50px;
+    filter: drop-shadow(0 2px 4px var(--text-shadow));
 }
 
 .el-upload--text {
-    color: #97a8be;
+    color: var(--soft-text);
     font-size: 14px;
     text-align: center;
 }
@@ -159,6 +295,8 @@ a {
 
 .ql-container {
     min-height: 400px;
+    background: var(--card-bg);
+    border-radius: 15px;
 }
 
 .ql-snow .ql-tooltip {
@@ -173,4 +311,127 @@ a {
 
 .v-note-wrapper .v-note-panel {
     min-height: 500px;
+    background: var(--card-bg);
+    border-radius: 15px;
+}
+
+/* Element Plus 组件样式覆盖 */
+.el-button--primary {
+    background: linear-gradient(135deg, var(--lavender-blue), var(--light-cobalt)) !important;
+    border: none !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px var(--card-shadow) !important;
+    transition: all 0.3s ease !important;
+    border-radius: 12px !important;
+}
+
+.el-button--primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px var(--card-shadow) !important;
+    background: linear-gradient(135deg, var(--soft-purple), var(--lavender-blue)) !important;
+}
+
+.el-input__wrapper {
+    background-color: var(--card-bg) !important;
+    border: 1px solid rgba(184, 184, 230, 0.3) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px var(--card-shadow) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.el-input__inner {
+    color: var(--text-dark) !important;
+}
+
+.el-card {
+    background: var(--card-bg) !important;
+    border: 1px solid rgba(184, 184, 230, 0.3) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 20px var(--card-shadow) !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+}
+
+.el-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 30px var(--card-shadow) !important;
+}
+
+.el-dialog {
+    background: var(--card-bg) !important;
+    border-radius: 25px !important;
+    border: 1px solid rgba(184, 184, 230, 0.3) !important;
+    box-shadow: 0 10px 40px var(--card-shadow) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+.el-dialog__header {
+    color: var(--text-dark) !important;
+    text-shadow: none !important;
+}
+
+.el-form-item__label {
+    color: var(--text-dark) !important;
+    text-shadow: none !important;
+}
+
+.el-dropdown-menu {
+    background: var(--card-bg) !important;
+    border: 1px solid rgba(184, 184, 230, 0.3) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 25px var(--card-shadow) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.el-dropdown-menu__item {
+    color: var(--text-dark) !important;
+    transition: all 0.3s ease !important;
+}
+
+.el-dropdown-menu__item:hover {
+    background: rgba(184, 184, 230, 0.2) !important;
+    color: var(--text-dark) !important;
+}
+
+.el-message-box {
+    background: var(--card-bg) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(184, 184, 230, 0.3) !important;
+    box-shadow: 0 10px 40px var(--card-shadow) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+.el-message-box__title {
+    color: var(--text-dark) !important;
+    text-shadow: none !important;
+}
+
+.el-message-box__message {
+    color: var(--text-dark) !important;
+}
+
+.el-select-dropdown {
+    background: var(--card-bg) !important;
+    border: 1px solid rgba(184, 184, 230, 0.3) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 25px var(--card-shadow) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.el-select-dropdown__item {
+    color: var(--text-dark) !important;
+}
+
+.el-select-dropdown__item:hover {
+    background: rgba(184, 184, 230, 0.2) !important;
+    color: var(--text-dark) !important;
+}
+
+.el-scrollbar__bar {
+    opacity: 0.6;
+}
+
+.el-scrollbar__thumb {
+    background: rgba(184, 184, 230, 0.4) !important;
+    border-radius: 10px !important;
 }
