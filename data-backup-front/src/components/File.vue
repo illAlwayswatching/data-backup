@@ -34,8 +34,20 @@
               >
                 <el-card 
                   :body-style="{ padding: '10px', boxShadow: 'none'}"  
-                  @contextmenu="onFileMenu($event, item, deleteFolder, compress, decompress, moveFile, downloadFile)"
+                  :class="{ 
+                    'draggable-file': item.type !== 1, 
+                    'drop-target': item.type === 1 && dragOverTarget === item.id,
+                    'dragging': draggedItem?.id === item.id
+                  }"
+                  :draggable="item.type !== 1"
+                  @contextmenu="onFileMenu($event, item, deleteFolder, compress, decompress, moveFile, downloadFile, clearFolder)"
                   @dblclick="enterFolder(item)"
+                  @dragstart="handleDragStart(item, $event)"
+                  @dragend="handleDragEnd"
+                  @dragover.prevent="handleDragOver(item, $event)"
+                  @dragenter.prevent="handleDragEnter(item, $event)"
+                  @dragleave="handleDragLeave(item, $event)"
+                  @drop.prevent="handleDrop(item, $event)"
                 >
                   <div class="image-wrapper">
                     <img v-if="item.isCompressed" src="@/assets/images/zip.jpeg" class="image">
@@ -94,6 +106,10 @@
   let searchKey = ref('')
   let centerDialogVisible = ref(false)
   let isEncrypted = ref(false)
+  
+  // 拖拽相关状态
+  let dragOverTarget = ref(null) // 当前拖拽悬停的目标文件夹ID
+  let draggedItem = ref(null) // 当前被拖拽的文件信息
   
   let loadParams = ref({username: counterStore.account.replace(/\"/g, ""), target: path.value})
   
@@ -371,6 +387,37 @@ const downloadFile = (source, flag) => {
     })
   }
 
+  const clearFolder = async (folderId) => {
+    ElMessageBox.confirm(
+      '确定要清空此文件夹下的所有文件吗？此操作不可恢复！',
+      '清空文件夹',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        distinguishCancelAndClose: true,
+      }
+    )
+    .then(async () => {
+      const res = await api.clearFolder(folderId)
+      if (res.type === 'success') {
+        ElMessage({
+          type: 'success',
+          message: res.message || '文件夹已清空',
+        })
+        getInfo()
+      } else {
+        ElMessage.error(res.message || '清空文件夹失败')
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '操作取消',
+      })
+    })
+  }
+
   const moveFile = async (fileId) => {
     ElMessageBox.prompt('请输入目标目录', '移动文件', {
       confirmButtonText: 'OK',
@@ -393,6 +440,166 @@ const downloadFile = (source, flag) => {
     .catch(() => {
       ElMessage("操作取消")
     })
+  }
+
+  // 拖拽开始
+  const handleDragStart = (item, event) => {
+    // 只能拖拽文件，不能拖拽文件夹
+    if (item.type === 1) {
+      event.preventDefault()
+      return false
+    }
+    
+    draggedItem.value = item
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('application/json', JSON.stringify({
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      path: item.path
+    }))
+    
+    // 设置拖拽图标
+    event.dataTransfer.setData('text/plain', item.name)
+  }
+
+  // 拖拽结束
+  const handleDragEnd = () => {
+    draggedItem.value = null
+    dragOverTarget.value = null
+  }
+
+  // 拖拽悬停
+  const handleDragOver = (item, event) => {
+    // 只有文件夹可以作为放置目标
+    if (item.type === 1 && draggedItem.value && draggedItem.value.id !== item.id) {
+      event.dataTransfer.dropEffect = 'move'
+    } else {
+      event.dataTransfer.dropEffect = 'none'
+    }
+  }
+
+  // 拖拽进入
+  const handleDragEnter = (item, event) => {
+    // 只有文件夹可以作为放置目标，且不能拖拽到自身
+    if (item.type === 1 && draggedItem.value && draggedItem.value.id !== item.id) {
+      dragOverTarget.value = item.id
+      event.dataTransfer.dropEffect = 'move'
+    } else {
+      event.dataTransfer.dropEffect = 'none'
+    }
+  }
+
+  // 拖拽离开
+  const handleDragLeave = (item, event) => {
+    // 检查是否真的离开了元素（避免子元素触发）
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = event.clientX
+    const y = event.clientY
+    
+    if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+      if (dragOverTarget.value === item.id) {
+        dragOverTarget.value = null
+      }
+    }
+  }
+
+  // 放置文件
+  const handleDrop = async (item, event) => {
+    // 重置拖拽状态
+    dragOverTarget.value = null
+    
+    // 只有文件夹可以作为放置目标
+    if (item.type !== 1) {
+      ElMessage.warning('只能将文件拖拽到文件夹中')
+      return
+    }
+
+    // 检查是否拖拽到自身
+    if (draggedItem.value && draggedItem.value.id === item.id) {
+      ElMessage.warning('不能将文件移动到自身')
+      return
+    }
+
+    // 获取拖拽的文件信息
+    let draggedFile = null
+    try {
+      const data = event.dataTransfer.getData('application/json')
+      if (data) {
+        draggedFile = JSON.parse(data)
+      } else if (draggedItem.value) {
+        draggedFile = draggedItem.value
+      }
+    } catch (e) {
+      console.error('解析拖拽数据失败:', e)
+      if (draggedItem.value) {
+        draggedFile = draggedItem.value
+      }
+    }
+
+    if (!draggedFile) {
+      ElMessage.error('无法获取拖拽的文件信息')
+      return
+    }
+
+    // 检查是否是文件夹
+    if (draggedFile.type === 1) {
+      ElMessage.warning('不能拖拽文件夹')
+      return
+    }
+
+    // 获取目标文件夹路径
+    // item.path 格式可能是: /folder/subfolder (相对于当前目录)
+    // 后端API需要: /folder/subfolder/ (相对于用户目录，以 / 结尾)
+    let targetPath = item.path || '/'
+    
+    // 如果路径包含用户名前缀（/username/...），需要去掉
+    const username = counterStore.account.replace(/\"/g, "")
+    if (targetPath.startsWith('/' + username)) {
+      targetPath = targetPath.substring(username.length + 1)
+    }
+    
+    // 确保路径格式正确
+    if (!targetPath.startsWith('/')) {
+      targetPath = '/' + targetPath
+    }
+    if (targetPath !== '/' && !targetPath.endsWith('/')) {
+      targetPath = targetPath + '/'
+    }
+
+    // 检查是否移动到相同位置
+    const currentPath = path.value || '/'
+    const draggedPath = draggedFile.path || ''
+    
+    // 简单检查：如果目标路径和当前路径相同，可能是移动到相同位置
+    // 这里需要更精确的判断，但为了简化，我们先执行移动操作
+    // 后端会处理同名文件的情况
+
+    // 确认移动
+    try {
+      ElMessage.info(`正在移动文件到 ${item.name}...`)
+      
+      const res = await api.moveFile(
+        counterStore.account.replace(/\"/g, ""), 
+        targetPath, 
+        draggedFile.id
+      )
+
+      if (res.type === 'success') {
+        ElMessage({
+          type: 'success',
+          message: `文件已移动到 ${item.name}`,
+        })
+        getInfo()
+      } else {
+        ElMessage.error(res.message || '移动文件失败')
+      }
+    } catch (error) {
+      console.error('移动文件失败:', error)
+      ElMessage.error('移动文件失败: ' + (error.message || '未知错误'))
+    } finally {
+      draggedItem.value = null
+    }
   }
 
   getInfo()
@@ -949,6 +1156,76 @@ const downloadFile = (source, flag) => {
   :deep(.el-upload__text em) {
     color: #1a2332 !important;
     font-weight: 500;
+  }
+
+  /* 拖拽相关样式 */
+  .draggable-file {
+    cursor: grab !important;
+  }
+
+  .draggable-file:active {
+    cursor: grabbing !important;
+  }
+
+  .dragging {
+    opacity: 0.5 !important;
+    transform: scale(0.95) !important;
+  }
+
+  .drop-target {
+    border-color: rgba(103, 126, 255, 0.8) !important;
+    background: rgba(103, 126, 255, 0.15) !important;
+    box-shadow: 
+      0 8px 30px rgba(103, 126, 255, 0.4),
+      0 4px 15px rgba(103, 126, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    transform: scale(1.05) !important;
+  }
+
+  .drop-target::before {
+    content: '放置文件';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(103, 126, 255, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(103, 126, 255, 0.5);
+  }
+
+  /* 拖拽时的视觉反馈 */
+  .custom-col :deep(.el-card.draggable-file:hover) {
+    cursor: grab;
+  }
+
+  .custom-col :deep(.el-card.draggable-file:active) {
+    cursor: grabbing;
+  }
+
+  /* 文件夹作为放置目标时的样式 */
+  .custom-col :deep(.el-card.drop-target) {
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 
+        0 8px 30px rgba(103, 126, 255, 0.4),
+        0 4px 15px rgba(103, 126, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    50% {
+      box-shadow: 
+        0 12px 40px rgba(103, 126, 255, 0.6),
+        0 6px 20px rgba(103, 126, 255, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
   }
 </style>
 

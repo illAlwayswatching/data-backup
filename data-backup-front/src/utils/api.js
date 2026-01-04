@@ -24,6 +24,8 @@ const api = {
   decompress: (username, target, zipId) => post(`decompress/byId`, {username, target, zipId}),
   // 移动文件
   moveFile: (username, to, fileId) => post(`info/copyInServer`, {username, to, fileId}),
+  // 清空文件夹
+  clearFolder: (folderId) => post(`info/clearFolder/${folderId}`),
   // 下载文件
   downloadFile: (username, source) => `${getBaseURL()}download/file?username=${username}&source=${source}`,
   downloadEncryptedFile: (username, source, keyword) => `${getBaseURL()}download/fileDecrypt?username=${username}&source=${source}&keyword=${keyword}`

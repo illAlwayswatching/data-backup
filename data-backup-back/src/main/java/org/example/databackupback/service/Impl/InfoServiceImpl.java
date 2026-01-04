@@ -7,6 +7,7 @@ import org.example.databackupback.entity.BackupFile;
 import org.example.databackupback.entity.BackupFileInfo;
 import org.example.databackupback.mapper.BackupFileInfoMapper;
 import org.example.databackupback.service.InfoService;
+import org.example.databackupback.utils.FileUtil;
 import org.example.databackupback.utils.MetadataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ import java.util.*;
 public class InfoServiceImpl implements InfoService {
     @Autowired
     BackupFileInfoMapper backupFileInfoMapper;
+
+    @Autowired
+    FileUtil fileUtil;
 
     private static final HashSet<String> picPostfix = new HashSet<>(Arrays.asList("xbm", "tif", "pjp", "svgz", "jpg",
             "jpeg", "ico", "tiff", "gif", "svg", "jfif", "webp", "png", "bmp", "pjpeg", "avif"));
@@ -247,6 +251,136 @@ public class InfoServiceImpl implements InfoService {
         
         backupFileInfoMapper.insert(newInfo);
 
-        return Response.success("拷贝文件成功");
+        // 移动文件：删除源文件和源文件的数据库记录
+        try {
+            // 删除源文件
+            if (sourceFile.exists()) {
+                if (sourceFile.isDirectory()) {
+                    // 如果是目录，检查是否为空
+                    if (Objects.requireNonNull(sourceFile.list()).length > 0) {
+                        return Response.error("源目录不为空，无法移动");
+                    }
+                }
+                boolean deleted = sourceFile.delete();
+                if (!deleted) {
+                    //log.warn("删除源文件失败，但文件已复制到目标位置");
+                    System.err.println("警告：删除源文件失败，但文件已复制到目标位置");
+                }
+            }
+            
+            // 删除源文件的数据库记录
+            // fileId 是 String 类型，MyBatis-Plus 会自动转换
+            backupFileInfoMapper.deleteById(fileId);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            //log.error("删除源文件或数据库记录失败", e);
+            // 即使删除失败，文件已经成功复制，所以返回成功但记录警告
+            System.err.println("警告：删除源文件或数据库记录失败: " + e.getMessage());
+            return Response.success("文件已移动到目标位置，但删除源文件记录时出现问题");
+        }
+
+        return Response.success("移动文件成功");
+    }
+
+    @Override
+    public Response clearFolder(Integer folderId) {
+        BackupFileInfo folderInfo = backupFileInfoMapper.selectById(folderId);
+        if (folderInfo == null) {
+            return Response.error("文件夹不存在");
+        }
+
+        File folder = new File(Response.USER_DATA + folderInfo.getPath());
+        if (!folder.exists()) {
+            return Response.error("文件夹不存在");
+        }
+
+        if (!folder.isDirectory()) {
+            return Response.error("指定路径不是文件夹");
+        }
+
+        File[] files = folder.listFiles();
+        if (files == null || files.length == 0) {
+            return Response.success("文件夹已经是空的");
+        }
+
+        int successCount = 0;
+        int failCount = 0;
+        StringBuilder errorMessages = new StringBuilder();
+
+        // 删除文件夹下的所有文件和子文件夹
+        for (File file : files) {
+            try {
+                // 删除文件或文件夹
+                if (file.isDirectory()) {
+                    // 递归删除子文件夹
+                    deleteDirectory(file);
+                } else {
+                    file.delete();
+                }
+
+                // 删除数据库记录
+                String filePath = fileUtil.getPathToStore(file);
+                QueryWrapper<BackupFileInfo> wrapper = new QueryWrapper<>();
+                wrapper.eq("path", filePath);
+                BackupFileInfo fileInfo = backupFileInfoMapper.selectOne(wrapper);
+                if (fileInfo != null) {
+                    backupFileInfoMapper.deleteById(fileInfo.getId());
+                }
+
+                successCount++;
+            } catch (Exception e) {
+                failCount++;
+                errorMessages.append(file.getName()).append(": ").append(e.getMessage()).append("; ");
+                e.printStackTrace();
+            }
+        }
+
+        if (failCount > 0) {
+            return Response.error("清空文件夹部分失败: " + errorMessages.toString() + 
+                    "成功删除 " + successCount + " 个文件，失败 " + failCount + " 个");
+        }
+
+        return Response.success("成功清空文件夹，共删除 " + successCount + " 个文件");
+    }
+
+    /**
+     * 递归删除目录及其所有内容
+     */
+    private void deleteDirectory(File directory) throws IOException {
+        if (!directory.exists()) {
+            return;
+        }
+
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    // 递归删除子目录
+                    deleteDirectory(file);
+                    // 删除子目录的数据库记录
+                    String dirPath = fileUtil.getPathToStore(file);
+                    QueryWrapper<BackupFileInfo> dirWrapper = new QueryWrapper<>();
+                    dirWrapper.eq("path", dirPath);
+                    BackupFileInfo dirInfo = backupFileInfoMapper.selectOne(dirWrapper);
+                    if (dirInfo != null) {
+                        backupFileInfoMapper.deleteById(dirInfo.getId());
+                    }
+                } else {
+                    // 删除文件前先删除数据库记录
+                    String filePath = fileUtil.getPathToStore(file);
+                    QueryWrapper<BackupFileInfo> wrapper = new QueryWrapper<>();
+                    wrapper.eq("path", filePath);
+                    BackupFileInfo fileInfo = backupFileInfoMapper.selectOne(wrapper);
+                    if (fileInfo != null) {
+                        backupFileInfoMapper.deleteById(fileInfo.getId());
+                    }
+                    file.delete();
+                }
+            }
+        }
+
+        // 删除目录本身
+        directory.delete();
     }
 }

@@ -1,7 +1,7 @@
 import ContextMenu from '@imengyu/vue3-context-menu'
 
 
-export function onFileMenu(e, item, deleteFolder, compress, decompress, moveFile, downloadFile) {
+export function onFileMenu(e, item, deleteFolder, compress, decompress, moveFile, downloadFile, clearFolder) {
   //prevent the browser's default menu
   e.preventDefault();
 
@@ -11,6 +11,16 @@ export function onFileMenu(e, item, deleteFolder, compress, decompress, moveFile
       deleteFolder(item.id)
     }
   }]
+
+  // 如果是文件夹，添加清空文件夹选项
+  if (item.type === 1) {
+    items.unshift({
+      label: "清空文件夹", 
+      onClick: () => {
+        clearFolder(item.id)
+      }
+    })
+  }
 
   if (item.isCompressed) {
     items.unshift({

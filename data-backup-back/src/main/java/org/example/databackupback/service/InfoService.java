@@ -15,4 +15,6 @@ public interface InfoService {
     Response addFolder(String username, String path, String folderName);
 
     Response copyInServer(String username, String fileId, String to);
+
+    Response clearFolder(Integer folderId);
 }

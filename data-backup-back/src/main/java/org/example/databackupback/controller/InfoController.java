@@ -38,4 +38,9 @@ public class InfoController {
     public Response copyInServer(String username, String fileId, String to) {
         return infoService.copyInServer(username, fileId, to);
     }
+
+    @PostMapping("/clearFolder/{id}")
+    public Response clearFolder(@PathVariable("id") Integer id) {
+        return infoService.clearFolder(id);
+    }
 }
