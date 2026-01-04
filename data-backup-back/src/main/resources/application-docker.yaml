@@ -1,0 +1,32 @@
+spring:
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+    hidden method:
+      filter:
+        enabled: true
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db:3306/data_backup?useSSL=false&serverTimezone=UTC&characterEncoding=utf8}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:com.mysql.cj.jdbc.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:appuser}
+    password: ${SPRING_DATASOURCE_PASSWORD:apppassword}
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+mybatis-plus:
+  type-aliases-package: org.example.databackupback.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+server:
+  port: ${SERVER_PORT:8888}
+  connection-timeout: 80000
+  disableUploadTimeout: false
+

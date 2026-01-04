@@ -1,8 +1,11 @@
 import axios from 'axios'
 
-// const BASE_URL = "http://43.248.188.73:11234/"
-// const BASE_URL = "http://192.168.0.186:8888/"
-const BASE_URL = "http://localhost:8888/"
+// 根据环境变量或构建模式决定 BASE_URL
+// 在 Docker 环境中，使用相对路径，nginx 会代理到后端
+// 在开发环境中，使用 localhost:8888
+const BASE_URL = import.meta.env.PROD 
+  ? (import.meta.env.VITE_API_BASE_URL || '/')  // 生产环境使用相对路径或环境变量
+  : "http://localhost:8888/"  // 开发环境使用 localhost
 
 axios.defaults.timeout = 5000 // 超时时间设置
 axios.defaults.withCredentials = true // true允许跨域

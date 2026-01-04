@@ -2,13 +2,6 @@
 
 ## 已完成的配置
 
-1. ✅ 修复了 `pom.xml` 中的主类配置错误
-2. ✅ 创建了 `.vscode/settings.json` 配置文件
-3. ✅ 创建了 `.project` 和 `.classpath` Eclipse 项目文件
-4. ✅ 配置了 Maven 项目识别
-
-## 解决 "ConfigError: The project 'data-backup-back' is not a valid java project" 的步骤
-
 ### 步骤 1: 重新加载 Vscode
 
 1. 按 `Cmd+Shift+P` (Mac) 或 `Ctrl+Shift+P` (Windows/Linux)

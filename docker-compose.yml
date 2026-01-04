@@ -1,13 +1,11 @@
-version: '3.8'
-
 services:
   # 🐬 MySQL 数据库
   db:
     image: mysql:8.0
-    container_name: myapp-db
+    container_name: data-backup-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: myapp
+      MYSQL_DATABASE: data_backup
       MYSQL_USER: appuser
       MYSQL_PASSWORD: apppassword
     ports:
@@ -16,26 +14,37 @@ services:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 自动执行初始化脚本
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # ☕ Spring Boot 后端
   backend:
     build: ./data-backup-back
-    container_name: myapp-backend
+    container_name: data-backup-backend
     ports:
-      - "8080:8080"
+      - "8888:8888"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/myapp?useSSL=false&serverTimezone=UTC
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/data_backup?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
       - SPRING_DATASOURCE_USERNAME=appuser
       - SPRING_DATASOURCE_PASSWORD=apppassword
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SERVER_PORT=8888
+      - USER_DATA=/app/data
+    volumes:
+      - backend_data:/app/data  # 持久化用户上传的文件
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
   # 🖥️ Vue 前端（Nginx）
   frontend:
     build: ./data-backup-front
-    container_name: myapp-frontend
+    container_name: data-backup-frontend
     ports:
       - "80:80"
     depends_on:
@@ -43,4 +52,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  db_data:  # 持久化数据库数据
+  db_data:      # 持久化数据库数据
+  backend_data: # 持久化后端文件数据

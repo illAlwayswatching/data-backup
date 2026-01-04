@@ -18,7 +18,10 @@ public class Response {
     // 项目地址
     public static String PROJECT_PATH = System.getProperty("user.dir");
 
-    public static String USER_DATA = PROJECT_PATH + "/data";
+    // 用户数据目录，支持环境变量配置（Docker 环境）
+    public static String USER_DATA = System.getenv("USER_DATA") != null 
+        ? System.getenv("USER_DATA") 
+        : (PROJECT_PATH + "/data");
 
     public static Response success(String message) {
         Response r = new Response();
