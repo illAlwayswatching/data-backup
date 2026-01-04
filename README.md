@@ -351,13 +351,3 @@ mvn clean package
 cd data-backup-front
 npm run build
 ```
-
-生成的静态文件位于 `dist/` 目录
-
-## 许可证
-
-[Apache-2.0 License](LICENSE)
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request！
